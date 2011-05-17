@@ -1,5 +1,7 @@
 <?php
 
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
 /**
  * PHP support for the Libravatar.org service.
  *
@@ -27,85 +29,96 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category   HTML
- * @package    HTML_Libravatar
- * @author     Melissa Draper <melissa@meldraweb.com>
- * @copyright  2011 HTML_Libravatar committers.
- * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
- * @since      File available since Release 0.1
+ * @category  HTML
+ * @package   HTML_Libravatar
+ * @author    Melissa Draper <melissa@meldraweb.com>
+ * @copyright 2011 HTML_Libravatar committers.
+ * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version   SVN: <package_version>
+ * @link      http://pear.php.net/package/HTML_Libravatar
+ * @since     File available since Release 0.1
  */
 
 /**
  * PHP support for the Libravatar.org service.
  *
- * @category   HTML
- * @package    HTML_Libravatar
- * @author     Melissa Draper <melissa@meldraweb.com>
- * @copyright  2011 HTML_Libravatar committers.
- * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version    Release: 0.1
- * @since      Class available since Release 0.1
+ * @category  HTML
+ * @package   HTML_Libravatar
+ * @author    Melissa Draper <melissa@meldraweb.com>
+ * @copyright 2011 HTML_Libravatar committers.
+ * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version   Release: <package_version>
+ * @link      http://pear.php.net/package/HTML_Libravatar
+ * @since     Class available since Release 0.1
  */
-class Libravatar {
+class Libravatar
+{
 
     /**
-     *  Compose a URL for the identifier and options passed in.
+     *  Composes a URL for the identifier and options passed in
      *
      *  Compose a full URL as specified by the Libravatar API, based on the
      *  email address or openid URL passed in, and the options specified.
      *
-     *  $identifier     string      Either an email address or an openid url.
-     *  $options        array       https, algorithm, s/size, d/default.
+     *  @param string $identifier a string of either an email address 
+     *                              or an openid url
+     *  @param array  $options    an array of (bool) https, (string) algorithm
+     *                              (string) s or size, (string) d or default
      *
-     *  @return         string      A full URL.
+     *  @return  string  A string of a full URL for an avatar image
+     *
+     *  @access public
+     *  @static
+     *  @since Method available since Release 0.1
      */
-    public function url($identifier, $options = array()) {
+    public function url($identifier, $options = array())
+    {
 
         // If no identifier has been passed, set it to a null.
         // This way, there'll always be something returned.
-        if(!$identifier) {
+        if (!$identifier) {
             $identifier = null;
         }
 
         // If the algorithm has been passed in $options, send it on.
         // This will only affect email functionality.
-        if(isset($options['algorithm']) && $options['algorithm'] === true) {
-            $id_hash = $this::id_hash($identifier, $options['algorithm']);
+        if (isset($options['algorithm']) && $options['algorithm'] === true) {
+            $identiferHash = $this::identiferHash($identifier,
+            $options['algorithm']);
         } else {
-            $id_hash = $this::id_hash($identifier);
+            $identiferHash = $this::identiferHash($identifier);
         }
 
-        // Get the domain so we can determine the SRV stuff for federation.
-        $domain = $this::domain_get($identifier);
+        // Get the domain so we can determine the SRV stuff for federation
+        $domain = $this::domainGet($identifier);
 
         // If https has been specified in $options, make sure we make the
-        // correct SRV lookup.
-        if(isset($options['https']) && $options['https'] === true) {
-            $service = $this::srv_get($domain, true);
+        // correct SRV lookup
+        if (isset($options['https']) && $options['https'] === true) {
+            $service  = $this::srvGet($domain, true);
             $protocol = 'https';
         } else {
-            $service = $this::srv_get($domain);
+            $service  = $this::srvGet($domain);
             $protocol = 'http';
         }
 
-        // We no longer need these, and they'll pollute our query string.
+        // We no longer need these, and they will pollute our query string
         unset($options['algorithm']);
         unset($options['https']);
 
-        // If there are any $options left, we want to make those into a
-        // query.
+        // If there are any $options left, we want to make those into a query
         $params = null;
-        if(count($options) > 0) {
+        if (count($options) > 0) {
             $params = '?' . http_build_query($options);
         }
 
-        // Time to compose our URL.
-        $url = $protocol . '://' . $service . '/avatar/' . $id_hash . $params;
+        // Compose the URL from the pieces we generated
+        $url = $protocol . '://' . $service . '/avatar/' . $identiferHash . $params;
 
-        // GIMME!
+        // Return the URL string
         return $url;
 
-	}
+    }
 
     /**
      *  Create a hash of the identifier.
@@ -114,30 +127,35 @@ class Libravatar {
      *  used for email address ONLY can be varied. Either md5 or sha256
      *  are supported by the Libravatar API. Will be ignored for openid.
      *
-     *  $identifier     string      The email address or openid URL.
-     *  $hash           string      The type of hash to make, by algo name.
+     *  @param string $identifier A string of the email address or openid URL
+     *  @param string $hash       A string of the hash algorithm type to make 
      *
-     *  @return         string      A hash of the identifier.
+     *  @return string  A string hash of the identifier.
+     *
+     *  @access protected
+     *  @since Method available since Release 0.1
      */
-    protected function id_hash($identifier, $hash = 'md5') {
+    protected function identiferHash($identifier, $hash = 'md5')
+    {
 
-        // What are we? Email or OpenID
-        if(filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
-            // If we're an email, we can select our algorithm.
-            // However it defaults to md5 for gravatar's sake.
+        // Is this an email address or an OpenID account
+        if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+            // If email, we can select our algorithm. Default to md5 for 
+            // gravatar fallback.
             return hash($hash, $identifier);
-        } else if (filter_var($identifier, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
-            // If we're an OpenID we need to split ourself up a bit and
-            // make sure formatting is correct. See API for more info.
-            $url = parse_url($identifier);
+        } else if (filter_var($identifier, 
+            FILTER_VALIDATE_URL, 
+            FILTER_FLAG_PATH_REQUIRED)
+        ) {
+            // If this is an OpenID, split the string and make sure the 
+            // formatting is correct. See the Libravatar API for more info.
+            // http://wiki.libravatar.org/api/
+            $url     = parse_url($identifier);
             $hashurl =  strtolower($url['scheme']) . '://' .
                         strtolower($url['host']) .
-                        $url['path';
+                        $url['path'];
             return hash('sha256', $hashurl);
         }
-
-        // If we have been passed nothing, we give nothing back.
-        return null;
 
     }
 
@@ -146,19 +164,25 @@ class Libravatar {
      * 
      *  Extract the domain from the Email or OpenID.
      *
-     *  $identifier     string      The email or openid.
+     *  @param string $identifier A string of the email address or openid URL
      *
-     *  @return         string      The domain.
+     *  @return string  A string of the domain to use
+     *
+     *  @access protected
+     *  @since Method available since Release 0.1
      */
-    protected function domain_get($identifier) {
+    protected function domainGet($identifier)
+    {
 
         // What are we, email or openid? Split ourself up and get the
         // important bit out.
-        if(filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
             $email = explode('@', $identifier);
             return $email[1];
-        }
-        else if (filter_var($identifier, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
+        } else if (filter_var($identifier, 
+            FILTER_VALIDATE_URL, 
+            FILTER_FLAG_PATH_REQUIRED)
+        ) {
             $url = parse_url($identifier);
             return $url['host'];
         }
@@ -169,22 +193,27 @@ class Libravatar {
      *  Get the target to use.
      *  
      *  Get the SRV record, filtered by priority and weight. If our domain
-     *  has nothing, fall back to the Libravatar.org stuff.
+     *  has no SRV records, fall back to Libravatar.org
      *
-     *  $domain     string      The domain we extracted with domain_get().
-     *  $https      boolean     Whether or not to go secure.
+     *  @param string  $domain A string of the domain we extracted from the
+     *                         provided identifer with domainGet()
+     *  @param boolean $https  Whether or not to look for https records
      *
-     *  @return     string      The target URL.
+     *  @return string  The target URL.
+     *
+     *  @access protected
+     *  @since Method available since Release 0.1
      */
-    protected function srv_get($domain, $https = false) {
+    protected function srvGet($domain, $https = false)
+    {
 
         // Are we going secure? Set up a fallback too.
         if (isset($https) && $https === true) {
             $subdomain = '_avatars-sec._tcp.';
-            $fallback = 'seccdn.';
+            $fallback  = 'seccdn.';
         } else {
             $subdomain = '_avatars._tcp.';
-            $fallback = 'cdn.';
+            $fallback  = 'cdn.';
         }
 
         // Lets try get us some records based on the choice of subdomain
@@ -193,8 +222,7 @@ class Libravatar {
 
         // Did we get anything? No?
         if (count($srv) == 0) {
-            // Then let's try Libravatar.org
-            // ...this should work.
+            // Then let's try Libravatar.org.
             return $fallback . 'libravatar.org';
         }
 
@@ -204,7 +232,7 @@ class Libravatar {
         $top = $srv[0];
 
         foreach ($srv as $s) {
-            if($s['pri'] == $top['pri']) {
+            if ($s['pri'] == $top['pri']) {
                 $pri[] = $s;
             }
         }
@@ -221,16 +249,45 @@ class Libravatar {
 
     /**
      *  Sorting function for record weights.
+     *
+     *  @param mixed $a A mixed value passed by usort()
+     *  @param mixed $b A mixed value passed by usort()
+     *
+     *  @return mixed  The result of the comparison
+     *
+     *  @access protected
+     *  @since Method available since Release 0.1
      */
-    protected function compareWeight($a, $b) {
-      return $a['weight'] - $b['weight'];
+    protected function compareWeight($a, $b)
+    {
+        return $a['weight'] - $b['weight'];
     }
 
     /**
      *  Sorting function for record priorities.
+     *
+     *  @param mixed $a A mixed value passed by usort()
+     *  @param mixed $b A mixed value passed by usort()
+     *
+     *  @return mixed  The result of the comparison
+     *
+     *  @access protected
+     *  @since Method available since Release 0.1
      */
-    protected function comparePriority($a, $b) {
-      return $a['pri'] - $b['pri'];
+    protected function comparePriority($a, $b)
+    {
+        return $a['pri'] - $b['pri'];
     }
 
 }
+
+/*
+ * Local variables:
+ * tab-width: 4
+ * c-basic-offset: 4
+ * c-hanging-comment-ender-p: nil
+ * End:
+ */
+
+?>
+
