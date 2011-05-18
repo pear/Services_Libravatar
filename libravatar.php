@@ -83,8 +83,10 @@ class Libravatar
         // If the algorithm has been passed in $options, send it on.
         // This will only affect email functionality.
         if (isset($options['algorithm']) && $options['algorithm'] === true) {
-            $identiferHash = $this::identiferHash($identifier,
-            $options['algorithm']);
+            $identiferHash = $this::identiferHash(
+                $identifier,
+                $options['algorithm']
+            );
         } else {
             $identiferHash = $this::identiferHash($identifier);
         }
@@ -139,14 +141,16 @@ class Libravatar
     {
 
         // Is this an email address or an OpenID account
+        $filter = filter_var(
+            $identifier,
+            FILTER_VALIDATE_URL,
+            FILTER_FLAG_PATH_REQUIRED
+        )
         if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
             // If email, we can select our algorithm. Default to md5 for 
             // gravatar fallback.
             return hash($hash, $identifier);
-        } else if (filter_var($identifier, 
-            FILTER_VALIDATE_URL, 
-            FILTER_FLAG_PATH_REQUIRED)
-        ) {
+        } else if ($filter) {
             // If this is an OpenID, split the string and make sure the 
             // formatting is correct. See the Libravatar API for more info.
             // http://wiki.libravatar.org/api/
@@ -176,13 +180,15 @@ class Libravatar
 
         // What are we, email or openid? Split ourself up and get the
         // important bit out.
+        $filter = filter_var(
+            $identifier,
+            FILTER_VALIDATE_URL,
+            FILTER_FLAG_PATH_REQUIRED
+        )
         if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
             $email = explode('@', $identifier);
             return $email[1];
-        } else if (filter_var($identifier, 
-            FILTER_VALIDATE_URL, 
-            FILTER_FLAG_PATH_REQUIRED)
-        ) {
+        } else if ($filter) {
             $url = parse_url($identifier);
             return $url['host'];
         }
