@@ -36,7 +36,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version   SVN: <package_version>
  * @link      http://pear.php.net/package/HTML_Libravatar
- * @since     File available since Release 0.1
+ * @since     File available since Release 0.1.0
  */
 
 /**
@@ -49,7 +49,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version   Release: <package_version>
  * @link      http://pear.php.net/package/HTML_Libravatar
- * @since     Class available since Release 0.1
+ * @since     Class available since Release 0.1.0
  */
 class Libravatar
 {
@@ -61,15 +61,15 @@ class Libravatar
      *  email address or openid URL passed in, and the options specified.
      *
      *  @param string $identifier a string of either an email address 
-     *                              or an openid url
+     *                            or an openid url
      *  @param array  $options    an array of (bool) https, (string) algorithm
-     *                              (string) s or size, (string) d or default
+     *                            (string) s or size, (string) d or default
      *
      *  @return  string  A string of a full URL for an avatar image
      *
      *  @access public
      *  @static
-     *  @since Method available since Release 0.1
+     *  @since Method available since Release 0.1.0
      */
     public function url($identifier, $options = array())
     {
@@ -135,7 +135,7 @@ class Libravatar
      *  @return string  A string hash of the identifier.
      *
      *  @access protected
-     *  @since Method available since Release 0.1
+     *  @since Method available since Release 0.1.0
      */
     protected function identiferHash($identifier, $hash = 'md5')
     {
@@ -145,7 +145,7 @@ class Libravatar
             $identifier,
             FILTER_VALIDATE_URL,
             FILTER_FLAG_PATH_REQUIRED
-        )
+        );
         if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
             // If email, we can select our algorithm. Default to md5 for 
             // gravatar fallback.
@@ -173,7 +173,7 @@ class Libravatar
      *  @return string  A string of the domain to use
      *
      *  @access protected
-     *  @since Method available since Release 0.1
+     *  @since Method available since Release 0.1.0
      */
     protected function domainGet($identifier)
     {
@@ -184,7 +184,7 @@ class Libravatar
             $identifier,
             FILTER_VALIDATE_URL,
             FILTER_FLAG_PATH_REQUIRED
-        )
+        );
         if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
             $email = explode('@', $identifier);
             return $email[1];
@@ -208,7 +208,7 @@ class Libravatar
      *  @return string  The target URL.
      *
      *  @access protected
-     *  @since Method available since Release 0.1
+     *  @since Method available since Release 0.1.0
      */
     protected function srvGet($domain, $https = false)
     {
@@ -262,7 +262,7 @@ class Libravatar
      *  @return mixed  The result of the comparison
      *
      *  @access protected
-     *  @since Method available since Release 0.1
+     *  @since Method available since Release 0.1.0
      */
     protected function compareWeight($a, $b)
     {
@@ -278,7 +278,7 @@ class Libravatar
      *  @return mixed  The result of the comparison
      *
      *  @access protected
-     *  @since Method available since Release 0.1
+     *  @since Method available since Release 0.1.0
      */
     protected function comparePriority($a, $b)
     {
