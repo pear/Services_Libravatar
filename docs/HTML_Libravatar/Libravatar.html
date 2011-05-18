@@ -1,0 +1,365 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>Docs For Class Libravatar</title>
+	<link rel="stylesheet" type="text/css" id="layout" href="../media/layout.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="../media/style.css" media="all">
+	<link rel="stylesheet" type="text/css" href="../media/print.css" media="print">
+</head>
+
+<body>
+<div id="header">
+	<div id="navLinks">
+        
+                                    
+                            	        [ <a href="../classtrees_HTML_Libravatar.html">Class Tree: HTML_Libravatar</a> ]
+            [ <a href="../elementindex_HTML_Libravatar.html">Index: HTML_Libravatar</a> ]
+        		[ <a href="../elementindex.html">All elements</a> ]		
+	</div>
+	<div id="packagePosition">
+		<div id="packageTitle2">HTML_Libravatar</div>
+		<div id="packageTitle">HTML_Libravatar</div>
+		<div id="elementPath"> &middot; </div>
+	</div>
+</div>
+
+<div id="nav" class="small">
+	<div id="packages">
+		Packages:
+					<p><a href="../li_HTML_Libravatar.html">HTML_Libravatar</a></p>
+			</div>
+
+				<div id="index">
+			<div id="files">
+								Files:<br>
+								<a href="../HTML_Libravatar/_build---libravatar.php.html">		libravatar.php
+		</a><br>
+			<a href="../HTML_Libravatar/_libravatar.php.html">		libravatar.php
+		</a><br>
+			<a href="../HTML_Libravatar/_makepackage.php.html">		makepackage.php
+		</a><br>
+				</div>
+			<div id="interfaces">
+							</div>
+			<div id="classes">
+				Classes:<br>
+								<a href="../HTML_Libravatar/Libravatar.html">		Libravatar
+		</a><br>
+				</div>
+		</div>
+	</div>
+
+<div id="body">
+	    		<h1>Class: Libravatar</h1>
+	<p style="margin: 0px;">Source Location: /build/libravatar.php</p>
+	
+
+<div class="leftcol">
+	<h3><a href="#class_details">Class Overview</a> <span class="smalllinenumber">[line 54]</span></h3>
+	<div id="classTree"><pre></pre>
+</div>
+	<div class="small">
+	<p>PHP support for the Libravatar.org service.</p>
+		<h4>Author(s):</h4>
+	<ul>
+								<li>Melissa Draper &lt;<a href="mailto:melissa@meldraweb.com">melissa@meldraweb.com</a>&gt;</li>
+																															</ul>
+	<h4>Version:</h4>
+	<ul>
+													<li>Release: &lt;package_version&gt;</li>
+																										</ul>
+
+	<h4>Copyright:</h4>
+	<ul>
+																		<li>2011 HTML_Libravatar committers.</li>
+																					</li>
+	</div>
+</div>
+
+<div class="middlecol">
+	<h3><a href="#class_vars">Variables</a></h3>
+	<ul class="small">
+			</ul>
+	<h3><a href="#class_consts">Constants</a></h3>
+	<ul class="small">
+			</ul>
+</div>
+<div class="rightcol">
+	<h3><a href="#class_methods">Methods</a></h3>
+	<ul class="small">
+				<li><a href="../HTML_Libravatar/Libravatar.html#methodcomparePriority">comparePriority</a></li>
+				<li><a href="../HTML_Libravatar/Libravatar.html#methodcompareWeight">compareWeight</a></li>
+				<li><a href="../HTML_Libravatar/Libravatar.html#methoddomainGet">domainGet</a></li>
+				<li><a href="../HTML_Libravatar/Libravatar.html#methodidentiferHash">identiferHash</a></li>
+				<li><a href="../HTML_Libravatar/Libravatar.html#methodsrvGet">srvGet</a></li>
+				<li><a href="../HTML_Libravatar/Libravatar.html#methodurl">url</a></li>
+			</ul>
+</div>
+
+<div id="content">
+<hr>
+	<div class="contents">
+	</div>
+
+	<div class="leftCol">
+    	<h2>Inherited Variables</h2>
+		<h2>Inherited Constants</h2>
+		</div>
+
+	<div class="rightCol">
+	<h2>Inherited Methods</h2>
+		</div>
+	<br clear="all">
+	<hr>
+
+	<a name="class_details"></a>
+	<h2>Class Details</h2>
+	<p align="center"><strong>PHP support for the Libravatar.org service.
+</strong></p>
+<h4>Tags:</h4>
+<ul>
+	<li><b>author</b> - Melissa Draper &lt;<a href="mailto:melissa@meldraweb.com">melissa@meldraweb.com</a>&gt;</li>
+	<li><b>version</b> - Release: &lt;package_version&gt;</li>
+	<li><b>copyright</b> - 2011 HTML_Libravatar committers.</li>
+	<li><b>link</b> - <a href="http://pear.php.net/package/HTML_Libravatar">http://pear.php.net/package/HTML_Libravatar</a></li>
+	<li><b>since</b> - Class available since Release 0.1</li>
+	<li><b>license</b> - <a href="http://www.opensource.org/licenses/mit-license.html">MIT License</a></li>
+</ul>
+	<p class="small" style="color: #334B66;">[ <a href="#top">Top</a> ]</p>
+
+	<hr>
+	<a name="class_vars"></a>
+	<h2>Class Variables</h2>
+	
+	<hr>
+	<a name="class_methods"></a>
+	<h2>Class Methods</h2>
+		<a name="methodurl"></a>
+	<p></p>
+	<h3>static url</h3>
+	<div class="indent">
+		<p>
+		<code>static string url(
+string
+$identifier, [array
+$options = array()])</code>
+		</p>
+	
+		<p class="linenumber">[line 74]</p>
+		<p align="center"><strong>Composes a URL for the identifier and options passed in
+</strong></p>
+<p>Compose a full URL as specified by the Libravatar API, based on the   email address or openid URL passed in, and the options specified.</p><h4>Tags:</h4>
+<ul>
+	<li><b>return</b> - A string of a full URL for an avatar image</li>
+	<li><b>since</b> - Method available since Release 0.1</li>
+	<li><b>access</b> - public</li>
+</ul>
+		
+	
+	<h4>Parameters:</h4>
+	<ul>
+			<li>
+		<span class="type">string</span>
+		<b>$identifier</b> 
+		- 
+		a string of either an email address                               or an openid url</li>
+			<li>
+		<span class="type">array</span>
+		<b>$options</b> 
+		- 
+		an array of (bool) https, (string) algorithm                               (string) s or size, (string) d or default</li>
+		</ul>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+
+	<a name="methodcomparePriority"></a>
+	<p></p>
+	<h3>comparePriority</h3>
+	<div class="indent">
+		<p>
+		<code>mixed comparePriority(
+mixed
+$a, mixed
+$b)</code>
+		</p>
+	
+		<p class="linenumber">[line 277]</p>
+		<p align="center"><strong>Sorting function for record priorities.
+</strong></p>
+<h4>Tags:</h4>
+<ul>
+	<li><b>return</b> - The result of the comparison</li>
+	<li><b>since</b> - Method available since Release 0.1</li>
+	<li><b>access</b> - protected</li>
+</ul>
+		
+	
+	<h4>Parameters:</h4>
+	<ul>
+			<li>
+		<span class="type">mixed</span>
+		<b>$a</b> 
+		- 
+		A mixed value passed by usort()</li>
+			<li>
+		<span class="type">mixed</span>
+		<b>$b</b> 
+		- 
+		A mixed value passed by usort()</li>
+		</ul>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+	<a name="methodcompareWeight"></a>
+	<p></p>
+	<h3>compareWeight</h3>
+	<div class="indent">
+		<p>
+		<code>mixed compareWeight(
+mixed
+$a, mixed
+$b)</code>
+		</p>
+	
+		<p class="linenumber">[line 261]</p>
+		<p align="center"><strong>Sorting function for record weights.
+</strong></p>
+<h4>Tags:</h4>
+<ul>
+	<li><b>return</b> - The result of the comparison</li>
+	<li><b>since</b> - Method available since Release 0.1</li>
+	<li><b>access</b> - protected</li>
+</ul>
+		
+	
+	<h4>Parameters:</h4>
+	<ul>
+			<li>
+		<span class="type">mixed</span>
+		<b>$a</b> 
+		- 
+		A mixed value passed by usort()</li>
+			<li>
+		<span class="type">mixed</span>
+		<b>$b</b> 
+		- 
+		A mixed value passed by usort()</li>
+		</ul>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+	<a name="methoddomainGet"></a>
+	<p></p>
+	<h3>domainGet</h3>
+	<div class="indent">
+		<p>
+		<code>string domainGet(
+string
+$identifier)</code>
+		</p>
+	
+		<p class="linenumber">[line 174]</p>
+		<p align="center"><strong>Grab the domain from the identifier.
+</strong></p>
+<p>Extract the domain from the Email or OpenID.</p><h4>Tags:</h4>
+<ul>
+	<li><b>return</b> - A string of the domain to use</li>
+	<li><b>since</b> - Method available since Release 0.1</li>
+	<li><b>access</b> - protected</li>
+</ul>
+		
+	
+	<h4>Parameters:</h4>
+	<ul>
+			<li>
+		<span class="type">string</span>
+		<b>$identifier</b> 
+		- 
+		A string of the email address or openid URL</li>
+		</ul>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+	<a name="methodidentiferHash"></a>
+	<p></p>
+	<h3>identiferHash</h3>
+	<div class="indent">
+		<p>
+		<code>string identiferHash(
+string
+$identifier, [string
+$hash = 'md5'])</code>
+		</p>
+	
+		<p class="linenumber">[line 138]</p>
+		<p align="center"><strong>Create a hash of the identifier.
+</strong></p>
+<p>Create a hash of the email address or openid passed in. Algorithm   used for email address ONLY can be varied. Either md5 or sha256   are supported by the Libravatar API. Will be ignored for openid.</p><h4>Tags:</h4>
+<ul>
+	<li><b>return</b> - A string hash of the identifier.</li>
+	<li><b>since</b> - Method available since Release 0.1</li>
+	<li><b>access</b> - protected</li>
+</ul>
+		
+	
+	<h4>Parameters:</h4>
+	<ul>
+			<li>
+		<span class="type">string</span>
+		<b>$identifier</b> 
+		- 
+		A string of the email address or openid URL</li>
+			<li>
+		<span class="type">string</span>
+		<b>$hash</b> 
+		- 
+		A string of the hash algorithm type to make</li>
+		</ul>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+	<a name="methodsrvGet"></a>
+	<p></p>
+	<h3>srvGet</h3>
+	<div class="indent">
+		<p>
+		<code>string srvGet(
+string
+$domain, [boolean
+$https = false])</code>
+		</p>
+	
+		<p class="linenumber">[line 207]</p>
+		<p align="center"><strong>Get the target to use.
+</strong></p>
+<p>Get the SRV record, filtered by priority and weight. If our domain   has no SRV records, fall back to Libravatar.org</p><h4>Tags:</h4>
+<ul>
+	<li><b>return</b> - The target URL.</li>
+	<li><b>since</b> - Method available since Release 0.1</li>
+	<li><b>access</b> - protected</li>
+</ul>
+		
+	
+	<h4>Parameters:</h4>
+	<ul>
+			<li>
+		<span class="type">string</span>
+		<b>$domain</b> 
+		- 
+		A string of the domain we extracted from the                          provided identifer with domainGet()</li>
+			<li>
+		<span class="type">boolean</span>
+		<b>$https</b> 
+		- 
+		Whether or not to look for https records</li>
+		</ul>
+	</div>
+	<p class="top">[ <a href="#top">Top</a> ]</p>
+
+	<hr>
+	<a name="class_consts"></a>
+	<h2>Class Constants</h2>
+	</div>
+	<div id="credit">
+		<hr>
+		Documentation generated on Thu, 19 May 2011 00:57:48 +1200 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+	</div>
+</div>
+</body>
+</html>
