@@ -42,7 +42,8 @@
 /**
  * PHP support for the Libravatar.org service.
  *
- * Using this class is simple:
+ * Using this class is easy. After including or requiring
+ * PEAR/libravatar.php simply do:
  *  <code>
  *   $libravatar = new Libravatar();
  *   $url = $libravatar->url('melissa@meldraweb.com');
@@ -54,7 +55,7 @@
  * A complicated lookup using all the options is:
  *  <code>
  *   $libravatar = new Libravatar();
- *   $options = array()
+ *   $options = array();
  *   $options['s'] = '40';
  *   $options['algorithm'] = 'sha256';
  *   $options['https'] = true;
