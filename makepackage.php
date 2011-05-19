@@ -50,7 +50,7 @@ $packagexml->setOptions(array('filelistgenerator' => 'file',
       'baseinstalldir' => 'PEAR',
       'ignore' => array('build/', 'build.xml'),
       'exceptions' => array('LICENCE' => 'doc'),
-      'include' => array('libravatar.php'),
+      'include' => array('libravatar.php', 'docs/', 'LICENCE'),
       'simpleoutput' => true));
 $packagexml->setPackageType('php');
 $packagexml->addRelease();
