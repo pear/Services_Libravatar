@@ -32,9 +32,7 @@
 				<div id="index">
 			<div id="files">
 								Files:<br>
-								<a href="../HTML_Libravatar/_build---libravatar.php.html">		libravatar.php
-		</a><br>
-			<a href="../HTML_Libravatar/_libravatar.php.html">		libravatar.php
+								<a href="../HTML_Libravatar/_libravatar.php.html">		libravatar.php
 		</a><br>
 			<a href="../HTML_Libravatar/_makepackage.php.html">		makepackage.php
 		</a><br>
@@ -51,11 +49,11 @@
 
 <div id="body">
 	    		<h1>Class: Libravatar</h1>
-	<p style="margin: 0px;">Source Location: /build/libravatar.php</p>
+	<p style="margin: 0px;">Source Location: /libravatar.php</p>
 	
 
 <div class="leftcol">
-	<h3><a href="#class_details">Class Overview</a> <span class="smalllinenumber">[line 54]</span></h3>
+	<h3><a href="#class_details">Class Overview</a> <span class="smalllinenumber">[line 74]</span></h3>
 	<div id="classTree"><pre></pre>
 </div>
 	<div class="small">
@@ -116,13 +114,22 @@
 	<h2>Class Details</h2>
 	<p align="center"><strong>PHP support for the Libravatar.org service.
 </strong></p>
-<h4>Tags:</h4>
+<p>Using this class is simple:   <ol><li><div class="src-line">&nbsp;&nbsp;&nbsp;<span class="src-var">$libravatar&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id"><a href="../HTML_Libravatar/Libravatar.html">Libravatar</a></span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;<span class="src-var">$url&nbsp;</span>=&nbsp;<span class="src-var">$libravatar</span><span class="src-sym">-&gt;</span><a href="../HTML_Libravatar/Libravatar.html#methodurl">url</a><span class="src-sym">(</span><span class="src-str">'melissa@meldraweb.com'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+</ol></p><p>This would generate:   http://cdn.libravatar.org/avatar/4db84629c121f2d443d33bdb9fd149bc</p><p>A complicated lookup using all the options is:   <ol><li><div class="src-line">&nbsp;&nbsp;&nbsp;<span class="src-var">$libravatar&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id"><a href="../HTML_Libravatar/Libravatar.html">Libravatar</a></span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;<span class="src-var">$options&nbsp;</span>=&nbsp;<span class="src-key">array</span><span class="src-sym">(</span><span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;<span class="src-var">$options</span><span class="src-sym">[</span><span class="src-str">'s'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-num">40</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;<span class="src-var">$options</span><span class="src-sym">[</span><span class="src-str">'algorithm'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-id">sha256</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;<span class="src-var">$options</span><span class="src-sym">[</span><span class="src-str">'https'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-id">true</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;<span class="src-var">$options</span><span class="src-sym">[</span><span class="src-str">'d'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-id">http</span>:<span class="src-comm">//upload.wikimedia.org/wikipedia/commons/a/af/Tux.png;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;<span class="src-var">$url&nbsp;</span>=&nbsp;<span class="src-var">$libravatar</span><span class="src-sym">-&gt;</span><a href="../HTML_Libravatar/Libravatar.html#methodurl">url</a><span class="src-sym">(</span><span class="src-str">'melissa@meldraweb.com'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$options</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+</ol></p><h4>Tags:</h4>
 <ul>
 	<li><b>author</b> - Melissa Draper &lt;<a href="mailto:melissa@meldraweb.com">melissa@meldraweb.com</a>&gt;</li>
 	<li><b>version</b> - Release: &lt;package_version&gt;</li>
 	<li><b>copyright</b> - 2011 HTML_Libravatar committers.</li>
 	<li><b>link</b> - <a href="http://pear.php.net/package/HTML_Libravatar">http://pear.php.net/package/HTML_Libravatar</a></li>
-	<li><b>since</b> - Class available since Release 0.1</li>
+	<li><b>since</b> - Class available since Release 0.1.0</li>
 	<li><b>license</b> - <a href="http://www.opensource.org/licenses/mit-license.html">MIT License</a></li>
 </ul>
 	<p class="small" style="color: #334B66;">[ <a href="#top">Top</a> ]</p>
@@ -145,13 +152,13 @@ $identifier, [array
 $options = array()])</code>
 		</p>
 	
-		<p class="linenumber">[line 74]</p>
+		<p class="linenumber">[line 94]</p>
 		<p align="center"><strong>Composes a URL for the identifier and options passed in
 </strong></p>
 <p>Compose a full URL as specified by the Libravatar API, based on the   email address or openid URL passed in, and the options specified.</p><h4>Tags:</h4>
 <ul>
 	<li><b>return</b> - A string of a full URL for an avatar image</li>
-	<li><b>since</b> - Method available since Release 0.1</li>
+	<li><b>since</b> - Method available since Release 0.1.0</li>
 	<li><b>access</b> - public</li>
 </ul>
 		
@@ -162,12 +169,12 @@ $options = array()])</code>
 		<span class="type">string</span>
 		<b>$identifier</b> 
 		- 
-		a string of either an email address                               or an openid url</li>
+		a string of either an email address                             or an openid url</li>
 			<li>
 		<span class="type">array</span>
 		<b>$options</b> 
 		- 
-		an array of (bool) https, (string) algorithm                               (string) s or size, (string) d or default</li>
+		an array of (bool) https, (string) algorithm                             (string) s or size, (string) d or default</li>
 		</ul>
 	</div>
 	<p class="top">[ <a href="#top">Top</a> ]</p>
@@ -183,13 +190,13 @@ $a, mixed
 $b)</code>
 		</p>
 	
-		<p class="linenumber">[line 277]</p>
+		<p class="linenumber">[line 303]</p>
 		<p align="center"><strong>Sorting function for record priorities.
 </strong></p>
 <h4>Tags:</h4>
 <ul>
 	<li><b>return</b> - The result of the comparison</li>
-	<li><b>since</b> - Method available since Release 0.1</li>
+	<li><b>since</b> - Method available since Release 0.1.0</li>
 	<li><b>access</b> - protected</li>
 </ul>
 		
@@ -220,13 +227,13 @@ $a, mixed
 $b)</code>
 		</p>
 	
-		<p class="linenumber">[line 261]</p>
+		<p class="linenumber">[line 287]</p>
 		<p align="center"><strong>Sorting function for record weights.
 </strong></p>
 <h4>Tags:</h4>
 <ul>
 	<li><b>return</b> - The result of the comparison</li>
-	<li><b>since</b> - Method available since Release 0.1</li>
+	<li><b>since</b> - Method available since Release 0.1.0</li>
 	<li><b>access</b> - protected</li>
 </ul>
 		
@@ -256,13 +263,13 @@ string
 $identifier)</code>
 		</p>
 	
-		<p class="linenumber">[line 174]</p>
+		<p class="linenumber">[line 198]</p>
 		<p align="center"><strong>Grab the domain from the identifier.
 </strong></p>
 <p>Extract the domain from the Email or OpenID.</p><h4>Tags:</h4>
 <ul>
 	<li><b>return</b> - A string of the domain to use</li>
-	<li><b>since</b> - Method available since Release 0.1</li>
+	<li><b>since</b> - Method available since Release 0.1.0</li>
 	<li><b>access</b> - protected</li>
 </ul>
 		
@@ -288,13 +295,13 @@ $identifier, [string
 $hash = 'md5'])</code>
 		</p>
 	
-		<p class="linenumber">[line 138]</p>
+		<p class="linenumber">[line 160]</p>
 		<p align="center"><strong>Create a hash of the identifier.
 </strong></p>
 <p>Create a hash of the email address or openid passed in. Algorithm   used for email address ONLY can be varied. Either md5 or sha256   are supported by the Libravatar API. Will be ignored for openid.</p><h4>Tags:</h4>
 <ul>
 	<li><b>return</b> - A string hash of the identifier.</li>
-	<li><b>since</b> - Method available since Release 0.1</li>
+	<li><b>since</b> - Method available since Release 0.1.0</li>
 	<li><b>access</b> - protected</li>
 </ul>
 		
@@ -325,13 +332,13 @@ $domain, [boolean
 $https = false])</code>
 		</p>
 	
-		<p class="linenumber">[line 207]</p>
+		<p class="linenumber">[line 233]</p>
 		<p align="center"><strong>Get the target to use.
 </strong></p>
 <p>Get the SRV record, filtered by priority and weight. If our domain   has no SRV records, fall back to Libravatar.org</p><h4>Tags:</h4>
 <ul>
 	<li><b>return</b> - The target URL.</li>
-	<li><b>since</b> - Method available since Release 0.1</li>
+	<li><b>since</b> - Method available since Release 0.1.0</li>
 	<li><b>access</b> - protected</li>
 </ul>
 		
@@ -358,7 +365,7 @@ $https = false])</code>
 	</div>
 	<div id="credit">
 		<hr>
-		Documentation generated on Thu, 19 May 2011 00:57:48 +1200 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		Documentation generated on Thu, 19 May 2011 12:35:53 +1200 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
 	</div>
 </div>
 </body>
