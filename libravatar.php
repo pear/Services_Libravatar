@@ -42,6 +42,26 @@
 /**
  * PHP support for the Libravatar.org service.
  *
+ * Using this class is simple:
+ *  <code>
+ *   $libravatar = new Libravatar();
+ *   $url = $libravatar->url('melissa@meldraweb.com');
+ *  </code>
+ *
+ *  This would generate:
+ *  http://cdn.libravatar.org/avatar/4db84629c121f2d443d33bdb9fd149bc
+ *
+ * A complicated lookup using all the options is:
+ *  <code>
+ *   $libravatar = new Libravatar();
+ *   $options = array()
+ *   $options['s'] = 40;
+ *   $options['algorithm'] = sha256;
+ *   $options['https'] = true;
+ *   $options['d'] = http://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png;
+ *   $url = $libravatar->url('melissa@meldraweb.com', $options);
+ *  </code>
+ *
  * @category  HTML
  * @package   HTML_Libravatar
  * @author    Melissa Draper <melissa@meldraweb.com>
@@ -59,27 +79,6 @@ class Libravatar
      *
      *  Compose a full URL as specified by the Libravatar API, based on the
      *  email address or openid URL passed in, and the options specified.
-     *
-     *  Using this class is simple:
-     *  <code>
-     *   $libravatar = new Libravatar();
-     *   $url = $libravatar->url('melissa@meldraweb.com');
-     *  </code>
-     *
-     *  This would generate:
-     *  http://cdn.libravatar.org/avatar/4db84629c121f2d443d33bdb9fd149bc
-     *
-     *  A complicated lookup using all the options is:
-     *
-     *  <code>
-     *   $libravatar = new Libravatar();
-     *   $options = array()
-     *   $options['s'] = 40;
-     *   $options['algorithm'] = sha256;
-     *   $options['https'] = true;
-     *   $options['d'] = http://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png;
-     *   $url = $libravatar->url('melissa@meldraweb.com', $options);
-     *  </code>
      *
      *  @param string $identifier a string of either an email address 
      *                            or an openid url
