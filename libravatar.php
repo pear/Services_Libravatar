@@ -55,10 +55,10 @@
  *  <code>
  *   $libravatar = new Libravatar();
  *   $options = array()
- *   $options['s'] = 40;
- *   $options['algorithm'] = sha256;
+ *   $options['s'] = '40';
+ *   $options['algorithm'] = 'sha256';
  *   $options['https'] = true;
- *   $options['d'] = http://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png;
+ *   $options['d'] = 'http://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png';
  *   $url = $libravatar->url('melissa@meldraweb.com', $options);
  *  </code>
  *
