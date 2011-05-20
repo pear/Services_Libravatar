@@ -49,7 +49,7 @@
  *   $url = $libravatar->url('melissa@meldraweb.com');
  *  </code>
  *
- *  This would generate:
+ *  This would populate $url with the string:
  *  http://cdn.libravatar.org/avatar/4db84629c121f2d443d33bdb9fd149bc
  *
  * A complicated lookup using all the options is:
@@ -88,7 +88,6 @@ class Services_Libravatar
      *
      *  @return  string  A string of a full URL for an avatar image
      *
-     *  @static
      *  @since Method available since Release 0.1.0
      */
     public function url($identifier, $options = array())
@@ -103,24 +102,24 @@ class Services_Libravatar
         // If the algorithm has been passed in $options, send it on.
         // This will only affect email functionality.
         if (isset($options['algorithm']) && $options['algorithm'] === true) {
-            $identiferHash = $this::identiferHash(
+            $identiferHash = $this->identiferHash(
                 $identifier,
                 $options['algorithm']
             );
         } else {
-            $identiferHash = $this::identiferHash($identifier);
+            $identiferHash = $this->identiferHash($identifier);
         }
 
         // Get the domain so we can determine the SRV stuff for federation
-        $domain = $this::domainGet($identifier);
+        $domain = $this->domainGet($identifier);
 
         // If https has been specified in $options, make sure we make the
         // correct SRV lookup
         if (isset($options['https']) && $options['https'] === true) {
-            $service  = $this::srvGet($domain, true);
-            $protocol = 'https';
+            $service  = $this->srvGet($domain, true);
+            $protocol = $this->'https';
         } else {
-            $service  = $this::srvGet($domain);
+            $service  = srvGet($domain);
             $protocol = 'http';
         }
 
