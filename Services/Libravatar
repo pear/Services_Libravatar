@@ -9,7 +9,7 @@
  *
  * The MIT License
  *
- * Copyright (c) 2011 HTML_Libravatar committers.
+ * Copyright (c) 2011 Services_Libravatar committers.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,13 +29,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category  HTML
- * @package   HTML_Libravatar
+ * @category  Services
+ * @package   Services_Libravatar
  * @author    Melissa Draper <melissa@meldraweb.com>
- * @copyright 2011 HTML_Libravatar committers.
+ * @copyright 2011 Services_Libravatar committers.
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version   SVN: <package_version>
- * @link      http://pear.php.net/package/HTML_Libravatar
+ * @link      http://pear.php.net/package/Services_Libravatar
  * @since     File available since Release 0.1.0
  */
 
@@ -45,7 +45,7 @@
  * Using this class is easy. After including or requiring
  * PEAR/libravatar.php simply do:
  *  <code>
- *   $libravatar = new Libravatar();
+ *   $libravatar = new Services_Libravatar();
  *   $url = $libravatar->url('melissa@meldraweb.com');
  *  </code>
  *
@@ -54,7 +54,7 @@
  *
  * A complicated lookup using all the options is:
  *  <code>
- *   $libravatar = new Libravatar();
+ *   $libravatar = new Services_Libravatar();
  *   $options = array();
  *   $options['s'] = '40';
  *   $options['algorithm'] = 'sha256';
@@ -63,16 +63,16 @@
  *   $url = $libravatar->url('melissa@meldraweb.com', $options);
  *  </code>
  *
- * @category  HTML
- * @package   HTML_Libravatar
+ * @category  Services
+ * @package   Services_Libravatar
  * @author    Melissa Draper <melissa@meldraweb.com>
- * @copyright 2011 HTML_Libravatar committers.
+ * @copyright 2011 Services_Libravatar committers.
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version   Release: <package_version>
- * @link      http://pear.php.net/package/HTML_Libravatar
+ * @link      http://pear.php.net/package/Services_Libravatar
  * @since     Class available since Release 0.1.0
  */
-class Libravatar
+class Services_Libravatar
 {
 
     /**
@@ -81,14 +81,13 @@ class Libravatar
      *  Compose a full URL as specified by the Libravatar API, based on the
      *  email address or openid URL passed in, and the options specified.
      *
-     *  @param string $identifier a string of either an email address 
+     *  @param string $identifier a string of either an email address
      *                            or an openid url
      *  @param array  $options    an array of (bool) https, (string) algorithm
      *                            (string) s or size, (string) d or default
      *
      *  @return  string  A string of a full URL for an avatar image
      *
-     *  @access public
      *  @static
      *  @since Method available since Release 0.1.0
      */
@@ -145,17 +144,16 @@ class Libravatar
 
     /**
      *  Create a hash of the identifier.
-     *  
+     *
      *  Create a hash of the email address or openid passed in. Algorithm
      *  used for email address ONLY can be varied. Either md5 or sha256
      *  are supported by the Libravatar API. Will be ignored for openid.
      *
      *  @param string $identifier A string of the email address or openid URL
-     *  @param string $hash       A string of the hash algorithm type to make 
+     *  @param string $hash       A string of the hash algorithm type to make
      *
      *  @return string  A string hash of the identifier.
      *
-     *  @access protected
      *  @since Method available since Release 0.1.0
      */
     protected function identiferHash($identifier, $hash = 'md5')
@@ -168,11 +166,11 @@ class Libravatar
             FILTER_FLAG_PATH_REQUIRED
         );
         if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
-            // If email, we can select our algorithm. Default to md5 for 
+            // If email, we can select our algorithm. Default to md5 for
             // gravatar fallback.
             return hash($hash, $identifier);
         } else if ($filter) {
-            // If this is an OpenID, split the string and make sure the 
+            // If this is an OpenID, split the string and make sure the
             // formatting is correct. See the Libravatar API for more info.
             // http://wiki.libravatar.org/api/
             $url     = parse_url($identifier);
@@ -186,14 +184,13 @@ class Libravatar
 
     /**
      *  Grab the domain from the identifier.
-     * 
+     *
      *  Extract the domain from the Email or OpenID.
      *
      *  @param string $identifier A string of the email address or openid URL
      *
      *  @return string  A string of the domain to use
      *
-     *  @access protected
      *  @since Method available since Release 0.1.0
      */
     protected function domainGet($identifier)
@@ -218,7 +215,7 @@ class Libravatar
 
     /**
      *  Get the target to use.
-     *  
+     *
      *  Get the SRV record, filtered by priority and weight. If our domain
      *  has no SRV records, fall back to Libravatar.org
      *
@@ -228,7 +225,6 @@ class Libravatar
      *
      *  @return string  The target URL.
      *
-     *  @access protected
      *  @since Method available since Release 0.1.0
      */
     protected function srvGet($domain, $https = false)
@@ -265,7 +261,7 @@ class Libravatar
         }
 
         // If we have a choice, get the lowest weighted.
-        usort($pri, 'compareWeight');        
+        usort($pri, 'compareWeight');
 
         // Grab the topmost record.
         $record = array_shift($pri);
@@ -282,7 +278,6 @@ class Libravatar
      *
      *  @return mixed  The result of the comparison
      *
-     *  @access protected
      *  @since Method available since Release 0.1.0
      */
     protected function compareWeight($a, $b)
@@ -298,7 +293,6 @@ class Libravatar
      *
      *  @return mixed  The result of the comparison
      *
-     *  @access protected
      *  @since Method available since Release 0.1.0
      */
     protected function comparePriority($a, $b)

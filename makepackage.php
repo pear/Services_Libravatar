@@ -9,7 +9,7 @@
  *
  * The MIT License
  *
- * Copyright (c) 2011 HTML_Libravatar committers.
+ * Copyright (c) 2011 Services_Libravatar committers.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,13 +29,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category  HTML
- * @package   HTML_Libravatar
+ * @category  Services
+ * @package   Services_Libravatar
  * @author    Melissa Draper <melissa@meldraweb.com>
- * @copyright 2011 HTML_Libravatar committers.
+ * @copyright 2011 Services_Libravatar committers.
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version   SVN: <package_version>
- * @link      http://pear.php.net/package/HTML_Libravatar
+ * @link      http://pear.php.net/package/Services_Libravatar
  * @since     File available since Release 0.1.0
  */
 /**
@@ -50,11 +50,11 @@ $packagexml->setOptions(array('filelistgenerator' => 'file',
       'baseinstalldir' => 'PEAR',
       'ignore' => array('build/', 'build.xml'),
       'exceptions' => array('LICENCE' => 'doc'),
-      'include' => array('libravatar.php', 'docs/', 'LICENCE'),
+      'include' => array('Services/', 'docs/', 'LICENCE'),
       'simpleoutput' => true));
 $packagexml->setPackageType('php');
 $packagexml->addRelease();
-$packagexml->setPackage('HTML_Libravatar');
+$packagexml->setPackage('Services_Libravatar');
 $packagexml->setChannel('pear.php.net');
 $packagexml->setReleaseVersion('0.1.0');
 $packagexml->setAPIVersion('0.1.0');
