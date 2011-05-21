@@ -45,13 +45,17 @@ require_once 'PEAR/PackageFileManager2.php';
 // recommended - makes PEAR_Errors act like exceptions (kind of)
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
 $packagexml = new PEAR_PackageFileManager2();
-$packagexml->setOptions(array('filelistgenerator' => 'file',
-      'packagedirectory' => dirname(__FILE__),
-      'baseinstalldir' => 'PEAR',
-      'ignore' => array('build/', 'build.xml'),
-      'exceptions' => array('LICENCE' => 'doc'),
-      'include' => array('Services/', 'docs/', 'LICENCE'),
-      'simpleoutput' => true));
+$packagexml->setOptions(
+    array(
+        'filelistgenerator' => 'file',
+        'packagedirectory' => dirname(__FILE__),
+        'baseinstalldir' => 'PEAR',
+        'ignore' => array('build/', 'build.xml'),
+        'exceptions' => array('LICENCE' => 'doc'),
+        'include' => array('Services/', 'docs/', 'LICENCE'),
+        'simpleoutput' => true,
+    )
+);
 $packagexml->setPackageType('php');
 $packagexml->addRelease();
 $packagexml->setPackage('Services_Libravatar');
@@ -61,15 +65,26 @@ $packagexml->setAPIVersion('0.1.0');
 $packagexml->setReleaseStability('alpha');
 $packagexml->setAPIStability('alpha');
 $packagexml->setSummary('API interfacing class for libravatar.org');
-$packagexml->setDescription('Allows php applications to easily adopt libravatar.org');
+$packagexml->setDescription('Allows php applications to implement libravatar.org');
 $packagexml->setNotes('Initial release');
 $packagexml->setPhpDep('5.3.0');
 $packagexml->setPearinstallerDep('1.4.0a12');
-$packagexml->addMaintainer('lead', 'elky', 'Melissa Draper', 'melissa@meldraweb.com');
-$packagexml->setLicense('MIT License', 'http://www.opensource.org/licenses/mit-license.html');
+$packagexml->addMaintainer(
+    'lead',
+    'elky',
+    'Melissa Draper',
+    'melissa@meldraweb.com'
+);
+$packagexml->setLicense(
+    'MIT License',
+    'http://www.opensource.org/licenses/mit-license.html'
+);
 $packagexml->addGlobalReplacement('package-info', '@PEAR-VER@', 'version');
 $packagexml->generateContents();
-if (isset($_GET['make']) || (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 'make')) {
+if (isset($_GET['make']) 
+    || (isset($_SERVER['argv']) 
+    && @$_SERVER['argv'][1] == 'make')
+) {
     $packagexml->writePackageFile();
 } else {
     $packagexml->debugPackageFile();
