@@ -99,27 +99,33 @@ class Services_Libravatar
             $identifier = null;
         }
 
+        $https = null;
+        if (isset($options['https']) && $options['https'] === true) {
+            $https = true;
+        }
+
         // If the algorithm has been passed in $options, send it on.
         // This will only affect email functionality.
         if (isset($options['algorithm']) && $options['algorithm'] === true) {
             $identiferHash = $this->identiferHash(
                 $identifier,
-                $options['algorithm']
+                $options['algorithm'],
+                $https
             );
         } else {
-            $identiferHash = $this->identiferHash($identifier);
+            $identiferHash = $this->identiferHash($identifier, null, $https);
         }
 
         // Get the domain so we can determine the SRV stuff for federation
-        $domain = $this->domainGet($identifier);
+        $domain = $this->domainGet($identifier, $https);
 
         // If https has been specified in $options, make sure we make the
         // correct SRV lookup
         if (isset($options['https']) && $options['https'] === true) {
             $service  = $this->srvGet($domain, true);
-            $protocol = $this->'https';
+            $protocol = 'https';
         } else {
-            $service  = srvGet($domain);
+            $service  = $this->srvGet($domain);
             $protocol = 'http';
         }
 
@@ -148,37 +154,59 @@ class Services_Libravatar
      *  used for email address ONLY can be varied. Either md5 or sha256
      *  are supported by the Libravatar API. Will be ignored for openid.
      *
-     *  @param string $identifier A string of the email address or openid URL
-     *  @param string $hash       A string of the hash algorithm type to make
+     *  @param string  $identifier A string of the email address or openid URL
+     *  @param string  $hash       A string of the hash algorithm type to make
+     *  @param boolean $https      If this is https, true.
      *
      *  @return string  A string hash of the identifier.
      *
      *  @since Method available since Release 0.1.0
      */
-    protected function identiferHash($identifier, $hash = 'md5')
+    protected function identiferHash($identifier, $hash = 'md5', $https = false)
     {
 
-        // Is this an email address or an OpenID account
-        $filter = filter_var(
-            $identifier,
-            FILTER_VALIDATE_URL,
-            FILTER_FLAG_PATH_REQUIRED
-        );
         if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
             // If email, we can select our algorithm. Default to md5 for
             // gravatar fallback.
             return hash($hash, $identifier);
-        } else if ($filter) {
-            // If this is an OpenID, split the string and make sure the
-            // formatting is correct. See the Libravatar API for more info.
-            // http://wiki.libravatar.org/api/
-            $url     = parse_url($identifier);
-            $hashurl =  strtolower($url['scheme']) . '://' .
-                        strtolower($url['host']) .
-                        $url['path'];
-            return hash('sha256', $hashurl);
-        }
+        } else {
 
+            // The protocol is important. If we're lacking it this will not be
+            // filtered. Add it per our preference in the options.
+            if ( ! strpos($identifier, 'http')) {
+                if ($https === true) {
+                    $protocol = 'https://';
+                } else {
+                    $protocol = 'http://';
+                }
+                $identifier = $protocol . $identifier;
+            }
+
+            // Is this an email address or an OpenID account
+            $filter = filter_var(
+                $identifier,
+                FILTER_VALIDATE_URL,
+                FILTER_FLAG_PATH_REQUIRED
+            );
+
+            if ($filter) {
+                // If this is an OpenID, split the string and make sure the
+                // formatting is correct. See the Libravatar API for more info.
+                // http://wiki.libravatar.org/api/
+                $url     = parse_url($identifier);
+                $hashurl = strtolower($url['scheme']) . '://' .
+                           strtolower($url['host']);
+                if (isset($url['port']) && $url['scheme'] === 'http' 
+                    && $url['port'] != 80 
+                    || isset($url['port']) && $url['scheme'] === 'https' 
+                    && $url['port'] != 443
+                ) {
+                    $hashurl .= ':' . $url['port'];
+                }
+                $hashurl .= $url['path'];
+                return hash('sha256', $hashurl);
+            }
+        }
     }
 
     /**
@@ -186,30 +214,54 @@ class Services_Libravatar
      *
      *  Extract the domain from the Email or OpenID.
      *
-     *  @param string $identifier A string of the email address or openid URL
+     *  @param string  $identifier A string of the email address or openid URL
+     *  @param boolean $https      If this is https, true.
      *
      *  @return string  A string of the domain to use
      *
      *  @since Method available since Release 0.1.0
      */
-    protected function domainGet($identifier)
+    protected function domainGet($identifier, $https = false)
     {
 
         // What are we, email or openid? Split ourself up and get the
         // important bit out.
-        $filter = filter_var(
-            $identifier,
-            FILTER_VALIDATE_URL,
-            FILTER_FLAG_PATH_REQUIRED
-        );
         if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
             $email = explode('@', $identifier);
             return $email[1];
-        } else if ($filter) {
-            $url = parse_url($identifier);
-            return $url['host'];
-        }
+        } else {
 
+            // The protocol is important. If we're lacking it this will not be
+            // filtered. Add it per our preference in the options.
+            if ( ! strpos($identifier, 'http')) {
+                if ($https === true) {
+                    $protocol = 'https://';
+                } else {
+                    $protocol = 'http://';
+                }
+                $identifier = $protocol . $identifier;
+            }
+
+            $filter = filter_var(
+                $identifier,
+                FILTER_VALIDATE_URL,
+                FILTER_FLAG_PATH_REQUIRED
+            );
+
+            if ($filter) {
+                $url    = parse_url($identifier);
+                $domain = $url['host'];
+                if (isset($url['port']) && $url['scheme'] === 'http' 
+                    && $url['port'] != 80
+                    || isset($url['port']) && $url['scheme'] === 'https' 
+                    && $url['port'] != 443
+                ) {
+                    $domain .= ':' . $url['port'];
+                }
+
+                return $domain;
+            }
+        }
     }
 
     /**
@@ -228,6 +280,11 @@ class Services_Libravatar
      */
     protected function srvGet($domain, $https = false)
     {
+
+        // Strip off the port if there is one
+        if (strpos($domain, ':')) {
+            $domain = strstr($domain, ':', true);
+        }
 
         // Are we going secure? Set up a fallback too.
         if (isset($https) && $https === true) {
@@ -252,36 +309,33 @@ class Services_Libravatar
         usort($srv, 'comparePriority');
 
         $top = $srv[0];
+        $sum = 0;
 
+        // Try to adhere to RFC2782, page 3
         foreach ($srv as $s) {
             if ($s['pri'] == $top['pri']) {
-                $pri[] = $s;
+                // Keep a running tally of the total sum of the weights
+                $sum += (int) $s['weight'];
+                // Assigning the current sum to each record as we go
+                $pri[$sum] = $s;
             }
         }
 
-        // If we have a choice, get the lowest weighted.
-        usort($pri, 'compareWeight');
+        // If all weights are 0, pick one.
+        if ($sum == 0) {
+            shuffle($pri);
+            return $pri[0];
+        }
 
-        // Grab the topmost record.
-        $record = array_shift($pri);
-
-        return $pri['target'];
-
-    }
-
-    /**
-     *  Sorting function for record weights.
-     *
-     *  @param mixed $a A mixed value passed by usort()
-     *  @param mixed $b A mixed value passed by usort()
-     *
-     *  @return mixed  The result of the comparison
-     *
-     *  @since Method available since Release 0.1.0
-     */
-    protected function compareWeight($a, $b)
-    {
-        return $a['weight'] - $b['weight'];
+        // If there are servers weighted other than 0, 0 weight servers should
+        // have little chance of selection. Pick the first rr that is greater
+        // than or equal to the random picked between 0 and the sum (inclusive).
+        $random = rand(0, $sum);
+        foreach ($pri as $k => $v) {
+            if ($k >= $random) {
+                return $v;
+            }
+        }
     }
 
     /**
