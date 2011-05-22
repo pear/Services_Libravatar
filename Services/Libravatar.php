@@ -301,7 +301,7 @@ class Services_Libravatar
         }
 
         // Sort by the priority. We must get the lowest.
-        usort($srv, 'comparePriority');
+        usort($srv, array($this, 'comparePriority'));
 
         $top = $srv[0];
         $sum = 0;
