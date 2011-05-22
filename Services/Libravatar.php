@@ -173,7 +173,7 @@ class Services_Libravatar
 
             // The protocol is important. If we're lacking it this will not be
             // filtered. Add it per our preference in the options.
-            if ( ! strpos($identifier, 'http')) {
+            if (stripos($identifier, 'http') !== 0) {
                 if ($https === true) {
                     $protocol = 'https://';
                 } else {
