@@ -106,14 +106,14 @@ class Services_Libravatar
 
         // If the algorithm has been passed in $options, send it on.
         // This will only affect email functionality.
-        if (isset($options['algorithm']) && $options['algorithm'] === true) {
+        if (isset($options['algorithm']) && is_string($options['algorithm'])) {
             $identiferHash = $this->identiferHash(
                 $identifier,
-                $options['algorithm'],
-                $https
+                $https,
+                $options['algorithm']
             );
         } else {
-            $identiferHash = $this->identiferHash($identifier, null, $https);
+            $identiferHash = $this->identiferHash($identifier, $https);
         }
 
         // Get the domain so we can determine the SRV stuff for federation
@@ -162,7 +162,7 @@ class Services_Libravatar
      *
      *  @since Method available since Release 0.1.0
      */
-    protected function identiferHash($identifier, $hash = 'md5', $https = false)
+    protected function identiferHash($identifier, $https = false, $hash = 'md5')
     {
 
         if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
