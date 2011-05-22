@@ -281,11 +281,6 @@ class Services_Libravatar
     protected function srvGet($domain, $https = false)
     {
 
-        // Strip off the port if there is one
-        if (strpos($domain, ':')) {
-            $domain = strstr($domain, ':', true);
-        }
-
         // Are we going secure? Set up a fallback too.
         if (isset($https) && $https === true) {
             $subdomain = '_avatars-sec._tcp.';
