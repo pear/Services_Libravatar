@@ -311,26 +311,36 @@ class Services_Libravatar
         $top = $srv[0];
         $sum = 0;
 
-        // Try to adhere to RFC2782, page 3
+        // Try to adhere to RFC2782's weighting algorithm, page 3
+        // "arrange all SRV RRs (that have not been ordered yet) in any order, 
+        // except that all those with weight 0 are placed at the beginning of 
+        // the list."
+        shuffle($srv);
+        $srvs = array();
         foreach ($srv as $s) {
+            if ($s['weight'] == 0) {
+                array_unshift($srvs, $s);
+            } else {
+                array_push($srvs, $s);
+            }
+        }
+
+        foreach ($srvs as $s) {
             if ($s['pri'] == $top['pri']) {
-                // Keep a running tally of the total sum of the weights
+                // "Compute the sum of the weights of those RRs"
                 $sum += (int) $s['weight'];
-                // Assigning the current sum to each record as we go
+                // "and with each RR associate the running sum in the selected 
+                // order."
                 $pri[$sum] = $s;
             }
         }
 
-        // If all weights are 0, pick one.
-        if ($sum == 0) {
-            shuffle($pri);
-            return $pri[0];
-        }
-
-        // If there are servers weighted other than 0, 0 weight servers should
-        // have little chance of selection. Pick the first rr that is greater
-        // than or equal to the random picked between 0 and the sum (inclusive).
+        // "Then choose a uniform random number between 0 and the sum computed
+        // (inclusive)"
         $random = rand(0, $sum);
+
+        // "and select the RR whose running sum value is the first in the selected
+        // order which is greater than or equal to the random number selected"
         foreach ($pri as $k => $v) {
             if ($k >= $random) {
                 return $v;
