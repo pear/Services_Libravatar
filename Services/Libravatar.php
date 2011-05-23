@@ -338,7 +338,7 @@ class Services_Libravatar
         // order which is greater than or equal to the random number selected"
         foreach ($pri as $k => $v) {
             if ($k >= $random) {
-                return $v;
+                return $v['target'];
             }
         }
     }
