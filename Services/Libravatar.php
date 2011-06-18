@@ -155,8 +155,8 @@ class Services_Libravatar
      *  are supported by the Libravatar API. Will be ignored for openid.
      *
      *  @param string  $identifier A string of the email address or openid URL
-     *  @param string  $hash       A string of the hash algorithm type to make
      *  @param boolean $https      If this is https, true.
+     *  @param string  $hash       A string of the hash algorithm type to make
      *
      *  @return string  A string hash of the identifier.
      *
