@@ -51,7 +51,6 @@ $packagexml->setOptions(
         'packagedirectory' => dirname(__FILE__),
         'baseinstalldir' => 'PEAR',
         'ignore' => array('build/', 'build.xml'),
-        'exceptions' => array('LICENCE' => 'doc'),
         'include' => array('Services/', 'docs/', 'LICENCE'),
         'simpleoutput' => true,
     )
