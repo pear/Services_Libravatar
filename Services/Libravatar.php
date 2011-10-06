@@ -196,9 +196,9 @@ class Services_Libravatar
                 $url     = parse_url($identifier);
                 $hashurl = strtolower($url['scheme']) . '://' .
                            strtolower($url['host']);
-                if (isset($url['port']) && $url['scheme'] === 'http' 
-                    && $url['port'] != 80 
-                    || isset($url['port']) && $url['scheme'] === 'https' 
+                if (isset($url['port']) && $url['scheme'] === 'http'
+                    && $url['port'] != 80
+                    || isset($url['port']) && $url['scheme'] === 'https'
                     && $url['port'] != 443
                 ) {
                     $hashurl .= ':' . $url['port'];
@@ -251,9 +251,9 @@ class Services_Libravatar
             if ($filter) {
                 $url    = parse_url($identifier);
                 $domain = $url['host'];
-                if (isset($url['port']) && $url['scheme'] === 'http' 
+                if (isset($url['port']) && $url['scheme'] === 'http'
                     && $url['port'] != 80
-                    || isset($url['port']) && $url['scheme'] === 'https' 
+                    || isset($url['port']) && $url['scheme'] === 'https'
                     && $url['port'] != 443
                 ) {
                     $domain .= ':' . $url['port'];
@@ -307,8 +307,8 @@ class Services_Libravatar
         $sum = 0;
 
         // Try to adhere to RFC2782's weighting algorithm, page 3
-        // "arrange all SRV RRs (that have not been ordered yet) in any order, 
-        // except that all those with weight 0 are placed at the beginning of 
+        // "arrange all SRV RRs (that have not been ordered yet) in any order,
+        // except that all those with weight 0 are placed at the beginning of
         // the list."
         shuffle($srv);
         $srvs = array();
@@ -324,7 +324,7 @@ class Services_Libravatar
             if ($s['pri'] == $top['pri']) {
                 // "Compute the sum of the weights of those RRs"
                 $sum += (int) $s['weight'];
-                // "and with each RR associate the running sum in the selected 
+                // "and with each RR associate the running sum in the selected
                 // order."
                 $pri[$sum] = $s;
             }
