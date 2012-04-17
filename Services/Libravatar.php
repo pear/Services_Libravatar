@@ -155,6 +155,8 @@ class Services_Libravatar
      *  @param string  $identifier A string of the email address or openid URL
      *  @param boolean $https      If this is https, true.
      *  @param string  $hash       A string of the hash algorithm type to make
+     *                             Uses the php implementation of hash()
+     *                             MD5 preferred for Gravatar fallback
      *
      *  @return string  A string hash of the identifier.
      *
