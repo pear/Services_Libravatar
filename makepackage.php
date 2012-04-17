@@ -78,7 +78,7 @@ $packagexml->setLicense(
     'MIT License',
     'http://www.opensource.org/licenses/mit-license.html'
 );
-$packagexml->addGlobalReplacement('package-info', '@PEAR-VER@', 'version');
+$packagexml->addGlobalReplacement('package-info', '@package_version@', 'version');
 $packagexml->generateContents();
 if (isset($_GET['make']) 
     || (isset($_SERVER['argv']) 
