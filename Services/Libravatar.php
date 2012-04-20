@@ -67,6 +67,7 @@
  * @author    Melissa Draper <melissa@meldraweb.com>
  * @copyright 2011 Services_Libravatar committers.
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version   Release: @package_version@
  * @link      http://pear.php.net/package/Services_Libravatar
  * @since     Class available since Release 0.1.0
  */
