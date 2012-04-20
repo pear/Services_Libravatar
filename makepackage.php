@@ -59,7 +59,7 @@ $packagexml->setPackageType('php');
 $packagexml->addRelease();
 $packagexml->setPackage('Services_Libravatar');
 $packagexml->setChannel('pear.php.net');
-$packagexml->setReleaseVersion('0.1.0');
+$packagexml->setReleaseVersion('0.1.1');
 $packagexml->setAPIVersion('0.1.0');
 $packagexml->setReleaseStability('alpha');
 $packagexml->setAPIStability('alpha');
