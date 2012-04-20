@@ -53,7 +53,7 @@
 	
 
 <div class="leftcol">
-	<h3><a href="#class_details">Class Overview</a> <span class="smalllinenumber">[line 75]</span></h3>
+	<h3><a href="#class_details">Class Overview</a> <span class="smalllinenumber">[line 74]</span></h3>
 	<div id="classTree"><pre></pre>
 </div>
 	<div class="small">
@@ -64,7 +64,7 @@
 																															</ul>
 	<h4>Version:</h4>
 	<ul>
-													<li>Release: &lt;package_version&gt;</li>
+													<li>Release: @package_version@</li>
 																										</ul>
 
 	<h4>Copyright:</h4>
@@ -125,7 +125,7 @@
 </ol></p><h4>Tags:</h4>
 <ul>
 	<li><b>author</b> - Melissa Draper &lt;<a href="mailto:melissa@meldraweb.com">melissa@meldraweb.com</a>&gt;</li>
-	<li><b>version</b> - Release: &lt;package_version&gt;</li>
+	<li><b>version</b> - Release: @package_version@</li>
 	<li><b>copyright</b> - 2011 Services_Libravatar committers.</li>
 	<li><b>link</b> - <a href="http://pear.php.net/package/Services_Libravatar">http://pear.php.net/package/Services_Libravatar</a></li>
 	<li><b>since</b> - Class available since Release 0.1.0</li>
@@ -152,7 +152,7 @@ $a, mixed
 $b)</code>
 		</p>
 	
-		<p class="linenumber">[line 356]</p>
+		<p class="linenumber">[line 357]</p>
 		<p align="center"><strong>Sorting function for record priorities.
 </strong></p>
 <h4>Tags:</h4>
@@ -189,7 +189,7 @@ $identifier, [boolean
 $https = false])</code>
 		</p>
 	
-		<p class="linenumber">[line 224]</p>
+		<p class="linenumber">[line 225]</p>
 		<p align="center"><strong>Grab the domain from the identifier.
 </strong></p>
 <p>Extract the domain from the Email or OpenID.</p><h4>Tags:</h4>
@@ -227,7 +227,7 @@ $https = false], [string
 $hash = 'md5'])</code>
 		</p>
 	
-		<p class="linenumber">[line 165]</p>
+		<p class="linenumber">[line 166]</p>
 		<p align="center"><strong>Create a hash of the identifier.
 </strong></p>
 <p>Create a hash of the email address or openid passed in. Algorithm   used for email address ONLY can be varied. Either md5 or sha256   are supported by the Libravatar API. Will be ignored for openid.</p><h4>Tags:</h4>
@@ -254,7 +254,7 @@ $hash = 'md5'])</code>
 		<span class="type">string</span>
 		<b>$hash</b> 
 		- 
-		A string of the hash algorithm type to make</li>
+		A string of the hash algorithm type to make                              Uses the php implementation of hash()                              MD5 preferred for Gravatar fallback</li>
 		</ul>
 	</div>
 	<p class="top">[ <a href="#top">Top</a> ]</p>
@@ -269,7 +269,7 @@ $domain, [boolean
 $https = false])</code>
 		</p>
 	
-		<p class="linenumber">[line 281]</p>
+		<p class="linenumber">[line 282]</p>
 		<p align="center"><strong>Get the target to use.
 </strong></p>
 <p>Get the SRV record, filtered by priority and weight. If our domain   has no SRV records, fall back to Libravatar.org</p><h4>Tags:</h4>
@@ -306,7 +306,7 @@ $identifier, [array
 $options = array()])</code>
 		</p>
 	
-		<p class="linenumber">[line 93]</p>
+		<p class="linenumber">[line 92]</p>
 		<p align="center"><strong>Composes a URL for the identifier and options passed in
 </strong></p>
 <p>Compose a full URL as specified by the Libravatar API, based on the   email address or openid URL passed in, and the options specified.</p><h4>Tags:</h4>
@@ -339,7 +339,7 @@ $options = array()])</code>
 	</div>
 	<div id="credit">
 		<hr>
-		Documentation generated on Sat, 18 Jun 2011 21:20:08 +1200 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		Documentation generated on Sat, 21 Apr 2012 01:30:47 +1200 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.4</a>
 	</div>
 </div>
 </body>
