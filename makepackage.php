@@ -65,7 +65,7 @@ $packagexml->setReleaseStability('alpha');
 $packagexml->setAPIStability('alpha');
 $packagexml->setSummary('API interfacing class for libravatar.org');
 $packagexml->setDescription('Allows php applications to implement libravatar.org');
-$packagexml->setNotes('Initial release');
+$packagexml->setNotes("* Fix bug #19384 - wrong baseinstalldir path \n* Improve docblock description for algorithm \n* Fix version replacement token \n* Remove whitespace");
 $packagexml->setPhpDep('5.3.0');
 $packagexml->setPearinstallerDep('1.4.0a12');
 $packagexml->addMaintainer(
