@@ -49,7 +49,7 @@ $packagexml->setOptions(
     array(
         'filelistgenerator' => 'file',
         'packagedirectory' => dirname(__FILE__),
-        'baseinstalldir' => '',
+        'baseinstalldir' => '/',
         'ignore' => array('build/', 'build.xml'),
         'include' => array('Services/', 'docs/', 'LICENCE'),
         'simpleoutput' => true,
