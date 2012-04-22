@@ -10,16 +10,92 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
 
     public function testGetUrl()
     {
-        $sl = $this->getMock('Services_Libravatar', array('srvGet'));
-        $sl->expects($this->once())
-            ->method('srvGet')
-            ->will($this->returnValue('example.org'));
-
+        $this->loadSLMock();
         $this->assertEquals(
             'http://example.org/avatar/9e263681488308e5e5d5e548b2f9bc99',
-            $sl->getUrl('cweiske@cweiske.de')
+            $this->sl->getUrl('cweiske@cweiske.de')
         );
     }
+
+    public function testGetUrlHttpsDefault()
+    {
+        $this->loadSLMock();
+        $this->sl->setHttps(true);
+        $this->assertEquals(
+            'https://example.org/avatar/9e263681488308e5e5d5e548b2f9bc99',
+            $this->sl->getUrl('cweiske@cweiske.de')
+        );
+    }
+
+    public function testGetUrlHttpsOptionOff()
+    {
+        $this->loadSLMock();
+        $this->sl->setHttps(true);
+        $this->assertEquals(
+            'http://example.org/avatar/9e263681488308e5e5d5e548b2f9bc99',
+            $this->sl->getUrl('cweiske@cweiske.de', array('https' => false))
+        );
+    }
+
+    public function testGetUrlAlgorithmDefault()
+    {
+        $this->loadSLMock();
+        $this->sl->setAlgorithm('sha256');
+        $this->assertEquals(
+            'http://example.org/avatar/baa4e986ac6bb3f3715de5b08727be61d33afb4b03e792eb6db2f184a61626d6',
+            $this->sl->getUrl('cweiske@cweiske.de')
+        );
+    }
+
+    public function testGetUrlAlgorithmOption()
+    {
+        $this->loadSLMock();
+        $this->assertEquals(
+            'http://example.org/avatar/baa4e986ac6bb3f3715de5b08727be61d33afb4b03e792eb6db2f184a61626d6',
+            $this->sl->getUrl('cweiske@cweiske.de', array('algorithm' => 'sha256'))
+        );
+    }
+
+    public function testGetUrlSizeDefault()
+    {
+        $this->loadSLMock();
+        $this->sl->setSize(128);
+        $this->assertEquals(
+            'http://example.org/avatar/9e263681488308e5e5d5e548b2f9bc99?size=128',
+            $this->sl->getUrl('cweiske@cweiske.de')
+        );
+    }
+
+    public function testGetUrlSizeOption()
+    {
+        $this->loadSLMock();
+        $this->sl->setSize(128);
+        $this->assertEquals(
+            'http://example.org/avatar/9e263681488308e5e5d5e548b2f9bc99?size=256',
+            $this->sl->getUrl('cweiske@cweiske.de', array('size' => 256))
+        );
+    }
+
+    public function testGetUrlDefaultDefault()
+    {
+        $this->loadSLMock();
+        $this->sl->setDefault('identicon');
+        $this->assertEquals(
+            'http://example.org/avatar/9e263681488308e5e5d5e548b2f9bc99?default=identicon',
+            $this->sl->getUrl('cweiske@cweiske.de')
+        );
+    }
+
+    public function testGetUrlDefaultOption()
+    {
+        $this->loadSLMock();
+        $this->assertEquals(
+            'http://example.org/avatar/9e263681488308e5e5d5e548b2f9bc99?default=404',
+            $this->sl->getUrl('cweiske@cweiske.de', array('default' => 404))
+        );
+    }
+
+
 
     public function testSetAlgorithmValid()
     {
@@ -134,6 +210,13 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         return $prop->getValue($object);
     }
 
+    protected function loadSLMock()
+    {
+        $this->sl = $this->getMock('Services_Libravatar', array('srvGet'));
+        $this->sl->expects($this->once())
+            ->method('srvGet')
+            ->will($this->returnValue('example.org'));
+    }
 }
 
 ?>

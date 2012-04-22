@@ -178,7 +178,7 @@ class Services_Libravatar
         // Additional URL options
         $default = $this->default;
         if (isset($options['default'])) {
-            $size = $this->processDefault($options['default']);
+            $default = $this->processDefault($options['default']);
         }
         $size = $this->size;
         if (isset($options['size'])) {
