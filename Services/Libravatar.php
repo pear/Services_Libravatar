@@ -407,7 +407,6 @@ class Services_Libravatar
         return $a['pri'] - $b['pri'];
     }
 
-
     /**
      * Verify and cast the email address hashing algorithm to use.
      *
@@ -417,7 +416,7 @@ class Services_Libravatar
      *
      * @throws InvalidArgumentException When an unsupported algorithm is given
      */
-    public function processAlgorithm($algorithm)
+    protected function processAlgorithm($algorithm)
     {
         $algorithm = (string)$algorithm;
         if ($algorithm !== 'md5' && $algorithm !== 'sha256') {
@@ -445,7 +444,7 @@ class Services_Libravatar
      *
      * @throws InvalidArgumentException When an invalid URL is given
      */
-    public function processDefault($url)
+    protected function processDefault($url)
     {
         if ($url === null) {
             return $url;
@@ -482,7 +481,7 @@ class Services_Libravatar
      *
      * @throws InvalidArgumentException When a size <= 0 is given
      */
-    public function processSize($size)
+    protected function processSize($size)
     {
         if ($size === null) {
             return $size;
