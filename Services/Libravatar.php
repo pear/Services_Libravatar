@@ -74,6 +74,42 @@
 class Services_Libravatar
 {
     /**
+     * Hashing algorithm to use
+     *
+     * @var string
+     * @see processAlgorithm()
+     * @see setAlgorithm()
+     */
+    protected $algorithm;
+
+    /**
+     * Default image URL to use
+     *
+     * @var string
+     * @see processDefault()
+     * @see setDefault()
+     */
+    protected $default;
+
+    /**
+     * If HTTPS URLs should be used
+     *
+     * @var boolean
+     * @see setHttps()
+     */
+    protected $https;
+
+    /**
+     * Image size in pixels
+     *
+     * @var integer
+     * @see processSize()
+     * @see setSize()
+     */
+    protected $size;
+
+
+    /**
      * Composes a URL for the identifier and options passed in
      *
      * Compose a full URL as specified by the Libravatar API, based on the
@@ -82,7 +118,8 @@ class Services_Libravatar
      * @param string $identifier a string of either an email address
      *                           or an openid url
      * @param array  $options    an array of (bool) https, (string) algorithm
-     *                           (string) s or size, (string) d or default
+     *                           (string) size, (string) default.
+     *                           See the set* methods.
      *
      * @return string A string of a full URL for an avatar image
      *
@@ -103,7 +140,8 @@ class Services_Libravatar
      * @param string $identifier a string of either an email address
      *                           or an openid url
      * @param array  $options    an array of (bool) https, (string) algorithm
-     *                           (string) s or size, (string) d or default
+     *                           (string) size, (string) default.
+     *                           See the set* methods.
      *
      * @return string A string of a full URL for an avatar image
      *
@@ -111,59 +149,49 @@ class Services_Libravatar
      */
     public function getUrl($identifier, $options = array())
     {
-
         // If no identifier has been passed, set it to a null.
         // This way, there'll always be something returned.
         if (!$identifier) {
             $identifier = null;
         }
 
-        $https = null;
-        if (isset($options['https']) && $options['https'] === true) {
-            $https = true;
+        $https = $this->https;
+        if (isset($options['https'])) {
+            $https = (bool)$options['https'];
         }
 
-        // If the algorithm has been passed in $options, send it on.
-        // This will only affect email functionality.
-        if (isset($options['algorithm']) && is_string($options['algorithm'])) {
-            $identiferHash = $this->identiferHash(
-                $identifier,
-                $https,
-                $options['algorithm']
-            );
-        } else {
-            $identiferHash = $this->identiferHash($identifier, $https);
+        $algorithm = $this->algorithm;
+        if (isset($options['algorithm'])) {
+            $algorithm = $this->processAlgorithm($options['algorithm']);
         }
+        $identiferHash = $this->identiferHash($identifier, $https, $algorithm);
 
         // Get the domain so we can determine the SRV stuff for federation
         $domain = $this->domainGet($identifier, $https);
 
         // If https has been specified in $options, make sure we make the
         // correct SRV lookup
-        if (isset($options['https']) && $options['https'] === true) {
-            $service  = $this->srvGet($domain, true);
-            $protocol = 'https';
-        } else {
-            $service  = $this->srvGet($domain);
-            $protocol = 'http';
+        $service  = $this->srvGet($domain, $https);
+        $protocol = $https ? 'https' : 'http';
+
+        // Additional URL options
+        $params = array();
+        if ($size !== null) {
+            $params['size'] = $size;
         }
-
-        // We no longer need these, and they will pollute our query string
-        unset($options['algorithm']);
-        unset($options['https']);
-
-        // If there are any $options left, we want to make those into a query
-        $params = null;
-        if (count($options) > 0) {
-            $params = '?' . http_build_query($options);
+        if ($default !== null) {
+            $params['default'] = $default;
+        }
+        if (count($params) > 0) {
+            $paramString = '?' . http_build_query($params);
         }
 
         // Compose the URL from the pieces we generated
-        $url = $protocol . '://' . $service . '/avatar/' . $identiferHash . $params;
+        $url = $protocol . '://' . $service . '/avatar/' . $identiferHash
+            . $paramString;
 
         // Return the URL string
         return $url;
-
     }
 
     /**
@@ -377,6 +405,164 @@ class Services_Libravatar
     protected function comparePriority($a, $b)
     {
         return $a['pri'] - $b['pri'];
+    }
+
+
+    /**
+     * Verify and cast the email address hashing algorithm to use.
+     *
+     * @param string $algorithm Algorithm to use, "sha256" or "md5".
+     *
+     * @return string Algorithm
+     *
+     * @throws InvalidArgumentException When an unsupported algorithm is given
+     */
+    public function processAlgorithm($algorithm)
+    {
+        $algorithm = (string)$algorithm;
+        if ($algorithm !== 'md5' && $algorithm !== 'sha256') {
+            throw new InvalidArgumentException(
+                'Only md5 and sha256 hashing supported'
+            );
+        }
+
+        return $algorithm;
+    }
+
+    /**
+     * Verify and cast the default URL to use when no avatar image can be found.
+     * If none is set, the libravatar logo is returned.
+     *
+     * @param string $url Full URL to use OR one of the following:
+     *                    - "404" - give a "404 File not found" instead of an image
+     *                    - "mm"
+     *                    - "identicon"
+     *                    - "monsterid"
+     *                    - "wavatar"
+     *                    - "retro"
+     *
+     * @return string Default URL
+     *
+     * @throws InvalidArgumentException When an invalid URL is given
+     */
+    public function processDefault($url)
+    {
+        if ($url === null) {
+            return $url;
+        }
+
+        $url = (string)$url;
+
+        switch ($url) {
+        case '404':
+        case 'mm':
+        case 'identicon':
+        case 'monsterid':
+        case 'wavatar':
+        case 'retro':
+            break;
+        default:
+            $valid = filter_var($url, FILTER_VALIDATE_URL);
+            if (!$valid) {
+                throw new InvalidArgumentException('Invalid default avatar URL');
+            }
+            break;
+        }
+
+        return $url;
+    }
+
+    /**
+     * Verify and cast the required size of the images.
+     *
+     * @param integer $size Size (width and height in pixels) of the image.
+     *                      NULL for the default width.
+     *
+     * @return integer Size
+     *
+     * @throws InvalidArgumentException When a size <= 0 is given
+     */
+    public function processSize($size)
+    {
+        if ($size === null) {
+            return $size;
+        }
+
+        $size = (int)$size;
+        if ($size <= 0) {
+            throw new InvalidArgumentException('Size has to be larger than 0');
+        }
+
+        return (int)$size;
+    }
+
+
+    /**
+     * Set the email address hashing algorithm to use.
+     * To keep gravatar compatibility, use "md5".
+     *
+     * @param string $algorithm Algorithm to use, "sha256" or "md5".
+     *
+     * @return self
+     * @throws InvalidArgumentException When an unsupported algorithm is given
+     */
+    public function setAlgorithm($algorithm)
+    {
+        $this->algorithm = $this->processAlgorithm($algorithm);
+
+        return $this;
+    }
+
+    /**
+     * Set the default URL to use when no avatar image can be found.
+     * If none is set, the gravatar logo is returned.
+     *
+     * @param string $url Full URL to use OR one of the following:
+     *                    - "404" - give a "404 File not found" instead of an image
+     *                    - "mm"
+     *                    - "identicon"
+     *                    - "monsterid"
+     *                    - "wavatar"
+     *                    - "retro"
+     *
+     * @return self
+     * @throws InvalidArgumentException When an invalid URL is given
+     */
+    public function setDefault($url)
+    {
+        $this->default = $this->processDefault($default);
+
+        return $this;
+    }
+
+    /**
+     * Set if HTTPS URLs shall be returned.
+     *
+     * @param boolean $useHttps If HTTPS url shall be returned
+     *
+     * @return self
+     */
+    public function setHttps($useHttps)
+    {
+        $this->https = (bool)$useHttps;
+
+        return $this;
+    }
+
+    /**
+     * Set the required size of the images.
+     * Every avatar image is square sized, which means you need to set only number.
+     *
+     * @param integer $size Size (width and height) of the image
+     *
+     * @return self
+     * @throws InvalidArgumentException When a size <= 0 is given
+     */
+    public function setSize($size)
+    {
+        $this->size = $this->processSize($size);
+
+        return $this;
     }
 
 }
