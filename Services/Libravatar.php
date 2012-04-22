@@ -73,7 +73,6 @@
  */
 class Services_Libravatar
 {
-
     /**
      *  Composes a URL for the identifier and options passed in
      *
@@ -87,9 +86,30 @@ class Services_Libravatar
      *
      *  @return  string  A string of a full URL for an avatar image
      *
-     *  @since Method available since Release 0.1.0
+     *  @since Method available since Release 0.2.0
+     *  @deprecated Use getUrl() instead
      */
     public function url($identifier, $options = array())
+    {
+        return $this->getUrl($identifier, $options);
+    }
+
+    /**
+     * Composes a URL for the identifier and options passed in
+     *
+     * Compose a full URL as specified by the Libravatar API, based on the
+     * email address or openid URL passed in, and the options specified.
+     *
+     * @param string $identifier a string of either an email address
+     *                           or an openid url
+     * @param array  $options    an array of (bool) https, (string) algorithm
+     *                           (string) s or size, (string) d or default
+     *
+     * @return string  A string of a full URL for an avatar image
+     *
+     * @since Method available since Release 0.2.0
+     */
+    public function getUrl($identifier, $options = array())
     {
 
         // If no identifier has been passed, set it to a null.
