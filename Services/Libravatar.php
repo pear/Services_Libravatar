@@ -530,7 +530,7 @@ class Services_Libravatar
      */
     public function setDefault($url)
     {
-        $this->default = $this->processDefault($default);
+        $this->default = $this->processDefault($url);
 
         return $this;
     }
