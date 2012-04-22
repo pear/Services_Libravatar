@@ -8,6 +8,19 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         $this->sl = new Services_Libravatar();
     }
 
+    public function testGetUrl()
+    {
+        $sl = $this->getMock('Services_Libravatar', array('srvGet'));
+        $sl->expects($this->once())
+            ->method('srvGet')
+            ->will($this->returnValue('example.org'));
+
+        $this->assertEquals(
+            'http://example.org/avatar/9e263681488308e5e5d5e548b2f9bc99',
+            $sl->getUrl('cweiske@cweiske.de')
+        );
+    }
+
     public function testSetAlgorithmValid()
     {
         $this->sl->setAlgorithm('md5');

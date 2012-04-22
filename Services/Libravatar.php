@@ -80,7 +80,7 @@ class Services_Libravatar
      * @see processAlgorithm()
      * @see setAlgorithm()
      */
-    protected $algorithm;
+    protected $algorithm = 'md5';
 
     /**
      * Default image URL to use
@@ -176,6 +176,15 @@ class Services_Libravatar
         $protocol = $https ? 'https' : 'http';
 
         // Additional URL options
+        $default = $this->default;
+        if (isset($options['default'])) {
+            $size = $this->processDefault($options['default']);
+        }
+        $size = $this->size;
+        if (isset($options['size'])) {
+            $size = $this->processSize($options['size']);
+        }
+
         $params = array();
         if ($size !== null) {
             $params['size'] = $size;
@@ -183,6 +192,7 @@ class Services_Libravatar
         if ($default !== null) {
             $params['default'] = $default;
         }
+        $paramString = '';
         if (count($params) > 0) {
             $paramString = '?' . http_build_query($params);
         }
