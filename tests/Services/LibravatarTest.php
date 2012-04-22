@@ -95,6 +95,20 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         $this->sl->setSize(-21);
     }
 
+    public function testDetectHttpsOn()
+    {
+        $_SERVER['HTTPS'] = 'on';
+        $this->sl->detectHttps();
+        $this->assertEquals(true, $this->getProtected('https', $this->sl));
+    }
+
+    public function testDetectHttpsOff()
+    {
+        unset($_SERVER['HTTPS']);
+        $this->sl->detectHttps();
+        $this->assertEquals(false, $this->getProtected('https', $this->sl));
+    }
+
 
     /**
      * Get the value of a protected/private class property

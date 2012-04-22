@@ -95,6 +95,7 @@ class Services_Libravatar
      * If HTTPS URLs should be used
      *
      * @var boolean
+     * @see detectHttps()
      * @see setHttps()
      */
     protected $https;
@@ -558,6 +559,8 @@ class Services_Libravatar
      * @param boolean $useHttps If HTTPS url shall be returned
      *
      * @return self
+     *
+     * @see detectHttps()
      */
     public function setHttps($useHttps)
     {
