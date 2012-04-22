@@ -74,20 +74,20 @@
 class Services_Libravatar
 {
     /**
-     *  Composes a URL for the identifier and options passed in
+     * Composes a URL for the identifier and options passed in
      *
-     *  Compose a full URL as specified by the Libravatar API, based on the
-     *  email address or openid URL passed in, and the options specified.
+     * Compose a full URL as specified by the Libravatar API, based on the
+     * email address or openid URL passed in, and the options specified.
      *
-     *  @param string $identifier a string of either an email address
-     *                            or an openid url
-     *  @param array  $options    an array of (bool) https, (string) algorithm
-     *                            (string) s or size, (string) d or default
+     * @param string $identifier a string of either an email address
+     *                           or an openid url
+     * @param array  $options    an array of (bool) https, (string) algorithm
+     *                           (string) s or size, (string) d or default
      *
-     *  @return  string  A string of a full URL for an avatar image
+     * @return string A string of a full URL for an avatar image
      *
-     *  @since Method available since Release 0.2.0
-     *  @deprecated Use getUrl() instead
+     * @since Method available since Release 0.2.0
+     * @deprecated Use getUrl() instead
      */
     public function url($identifier, $options = array())
     {
@@ -105,7 +105,7 @@ class Services_Libravatar
      * @param array  $options    an array of (bool) https, (string) algorithm
      *                           (string) s or size, (string) d or default
      *
-     * @return string  A string of a full URL for an avatar image
+     * @return string A string of a full URL for an avatar image
      *
      * @since Method available since Release 0.2.0
      */
@@ -167,21 +167,21 @@ class Services_Libravatar
     }
 
     /**
-     *  Create a hash of the identifier.
+     * Create a hash of the identifier.
      *
-     *  Create a hash of the email address or openid passed in. Algorithm
-     *  used for email address ONLY can be varied. Either md5 or sha256
-     *  are supported by the Libravatar API. Will be ignored for openid.
+     * Create a hash of the email address or openid passed in. Algorithm
+     * used for email address ONLY can be varied. Either md5 or sha256
+     * are supported by the Libravatar API. Will be ignored for openid.
      *
-     *  @param string  $identifier A string of the email address or openid URL
-     *  @param boolean $https      If this is https, true.
-     *  @param string  $hash       A string of the hash algorithm type to make
-     *                             Uses the php implementation of hash()
-     *                             MD5 preferred for Gravatar fallback
+     * @param string  $identifier A string of the email address or openid URL
+     * @param boolean $https      If this is https, true.
+     * @param string  $hash       A string of the hash algorithm type to make
+     *                            Uses the php implementation of hash()
+     *                            MD5 preferred for Gravatar fallback
      *
-     *  @return string  A string hash of the identifier.
+     * @return string A string hash of the identifier.
      *
-     *  @since Method available since Release 0.1.0
+     * @since Method available since Release 0.1.0
      */
     protected function identiferHash($identifier, $https = false, $hash = 'md5')
     {
@@ -231,16 +231,16 @@ class Services_Libravatar
     }
 
     /**
-     *  Grab the domain from the identifier.
+     * Grab the domain from the identifier.
      *
-     *  Extract the domain from the Email or OpenID.
+     * Extract the domain from the Email or OpenID.
      *
-     *  @param string  $identifier A string of the email address or openid URL
-     *  @param boolean $https      If this is https, true.
+     * @param string  $identifier A string of the email address or openid URL
+     * @param boolean $https      If this is https, true.
      *
-     *  @return string  A string of the domain to use
+     * @return string A string of the domain to use
      *
-     *  @since Method available since Release 0.1.0
+     * @since Method available since Release 0.1.0
      */
     protected function domainGet($identifier, $https = false)
     {
@@ -286,18 +286,18 @@ class Services_Libravatar
     }
 
     /**
-     *  Get the target to use.
+     * Get the target to use.
      *
-     *  Get the SRV record, filtered by priority and weight. If our domain
-     *  has no SRV records, fall back to Libravatar.org
+     * Get the SRV record, filtered by priority and weight. If our domain
+     * has no SRV records, fall back to Libravatar.org
      *
-     *  @param string  $domain A string of the domain we extracted from the
-     *                         provided identifer with domainGet()
-     *  @param boolean $https  Whether or not to look for https records
+     * @param string  $domain A string of the domain we extracted from the
+     *                        provided identifer with domainGet()
+     * @param boolean $https  Whether or not to look for https records
      *
-     *  @return string  The target URL.
+     * @return string The target URL.
      *
-     *  @since Method available since Release 0.1.0
+     * @since Method available since Release 0.1.0
      */
     protected function srvGet($domain, $https = false)
     {
@@ -365,14 +365,14 @@ class Services_Libravatar
     }
 
     /**
-     *  Sorting function for record priorities.
+     * Sorting function for record priorities.
      *
-     *  @param mixed $a A mixed value passed by usort()
-     *  @param mixed $b A mixed value passed by usort()
+     * @param mixed $a A mixed value passed by usort()
+     * @param mixed $b A mixed value passed by usort()
      *
-     *  @return mixed  The result of the comparison
+     * @return mixed The result of the comparison
      *
-     *  @since Method available since Release 0.1.0
+     * @since Method available since Release 0.1.0
      */
     protected function comparePriority($a, $b)
     {
