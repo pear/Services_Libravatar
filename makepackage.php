@@ -51,7 +51,7 @@ $packagexml->setOptions(
         'packagedirectory' => dirname(__FILE__),
         'baseinstalldir' => '/',
         'ignore' => array('build/', 'build.xml'),
-        'include' => array('Services/', 'docs/', 'LICENCE'),
+        'include' => array('Services/', 'LICENCE'),
         'simpleoutput' => true,
     )
 );
@@ -59,13 +59,13 @@ $packagexml->setPackageType('php');
 $packagexml->addRelease();
 $packagexml->setPackage('Services_Libravatar');
 $packagexml->setChannel('pear.php.net');
-$packagexml->setReleaseVersion('0.1.1');
+$packagexml->setReleaseVersion('0.1.2');
 $packagexml->setAPIVersion('0.1.0');
 $packagexml->setReleaseStability('alpha');
 $packagexml->setAPIStability('alpha');
 $packagexml->setSummary('API interfacing class for libravatar.org');
 $packagexml->setDescription('Allows php applications to implement libravatar.org');
-$packagexml->setNotes("* Fix bug #19384 - wrong baseinstalldir path \n* Improve docblock description for algorithm \n* Fix version replacement token \n* Remove whitespace");
+$packagexml->setNotes("Remove docs");
 $packagexml->setPhpDep('5.3.0');
 $packagexml->setPearinstallerDep('1.4.0a12');
 $packagexml->addMaintainer(
