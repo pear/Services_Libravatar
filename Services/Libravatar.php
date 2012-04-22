@@ -408,6 +408,24 @@ class Services_Libravatar
     }
 
     /**
+     * Automatically set the https option depending on the current connection
+     * value.
+     *
+     * If the current connection is HTTPS, the https options is activated.
+     * If it is not HTTPS, the https option is deactivated.
+     *
+     * @return self
+     */
+    public function detectHttps()
+    {
+        $this->setHttps(
+            isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']
+        );
+
+        return $this;
+    }
+
+    /**
      * Verify and cast the email address hashing algorithm to use.
      *
      * @param string $algorithm Algorithm to use, "sha256" or "md5".
