@@ -224,8 +224,7 @@ class Services_Libravatar
      */
     protected function identiferHash($identifier, $https = false, $hash = 'md5')
     {
-
-        if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($identifier, FILTER_VALIDATE_EMAIL) || $identifier === null) {
             // If email, we can select our algorithm. Default to md5 for
             // gravatar fallback.
             return hash($hash, $identifier);
