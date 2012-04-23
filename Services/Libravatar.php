@@ -263,11 +263,22 @@ class Services_Libravatar
         if (strpos($identifier, '/', 8) === false) {
             $identifier .= '/';
         }
-        if (filter_var($identifier, FILTER_VALIDATE_URL)) {
-            return $identifier;
+        if (!filter_var($identifier, FILTER_VALIDATE_URL)) {
+            return '';
         }
 
-        return '';
+        $parts = parse_url($identifier);
+        $parts['scheme'] = strtolower($parts['scheme']);
+        $parts['host']   = strtolower($parts['host']);
+
+        //http://openid.net/specs/openid-authentication-2_0.html#normalization
+        return $parts['scheme'] . '://'
+            . (isset($parts['user']) ? $parts['user'] : '')
+            . (isset($parts['pass']) ? ':' . $parts['pass'] : '')
+            . (isset($parts['user']) || isset($parts['pass']) ? '@' : '')
+            . $parts['host'] . $parts['path']
+            . (isset($parts['query']) ? '?' . $parts['query'] : '');
+            //leave out fragment as requested by the spec
     }
 
     /**

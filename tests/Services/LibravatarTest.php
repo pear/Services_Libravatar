@@ -130,6 +130,38 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testNormalizeOpenIdCasing()
+    {
+        $this->assertEquals(
+            'https://example.org/BaR?Foo',
+            Services_Libravatar::normalizeOpenId('Https://examPLe.Org/BaR?Foo#mE')
+        );
+    }
+
+    public function testNormalizeOpenIdUsername()
+    {
+        $this->assertEquals(
+            'https://User@example.org/',
+            Services_Libravatar::normalizeOpenId('Https://User@examPLe.Org/')
+        );
+    }
+
+    public function testNormalizeOpenIdPassword()
+    {
+        $this->assertEquals(
+            'https://:pAss@example.org/',
+            Services_Libravatar::normalizeOpenId('Https://:pAss@examPLe.Org/')
+        );
+    }
+
+    public function testNormalizeOpenIdUserAndPass()
+    {
+        $this->assertEquals(
+            'https://User:Pass@example.org/',
+            Services_Libravatar::normalizeOpenId('Https://User:Pass@examPLe.Org/')
+        );
+    }
+
     public function testNormalizeOpenIdXRI()
     {
         $this->assertEquals(
