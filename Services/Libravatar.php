@@ -165,7 +165,7 @@ class Services_Libravatar
         if (isset($options['algorithm'])) {
             $algorithm = $this->processAlgorithm($options['algorithm']);
         }
-        $identiferHash = $this->identiferHash($identifier, $https, $algorithm);
+        $identifierHash = $this->identifierHash($identifier, $algorithm);
 
         // Get the domain so we can determine the SRV stuff for federation
         $domain = $this->domainGet($identifier, $https);
@@ -198,7 +198,7 @@ class Services_Libravatar
         }
 
         // Compose the URL from the pieces we generated
-        $url = $protocol . '://' . $service . '/avatar/' . $identiferHash
+        $url = $protocol . '://' . $service . '/avatar/' . $identifierHash
             . $paramString;
 
         // Return the URL string
@@ -213,7 +213,6 @@ class Services_Libravatar
      * are supported by the Libravatar API. Will be ignored for openid.
      *
      * @param string  $identifier A string of the email address or openid URL
-     * @param boolean $https      If this is https, true.
      * @param string  $hash       A string of the hash algorithm type to make
      *                            Uses the php implementation of hash()
      *                            MD5 preferred for Gravatar fallback
@@ -222,7 +221,7 @@ class Services_Libravatar
      *
      * @since Method available since Release 0.1.0
      */
-    protected function identiferHash($identifier, $https = false, $hash = 'md5')
+    protected function identifierHash($identifier, $hash = 'md5')
     {
         if (filter_var($identifier, FILTER_VALIDATE_EMAIL) || $identifier === null) {
             // If email, we can select our algorithm. Default to md5 for
