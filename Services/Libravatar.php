@@ -154,6 +154,8 @@ class Services_Libravatar
         // This way, there'll always be something returned.
         if (!$identifier) {
             $identifier = null;
+        } else {
+            $identifier = $this->normalizeIdentifier($identifier);
         }
 
         $https = $this->https;
@@ -206,6 +208,22 @@ class Services_Libravatar
     }
 
     /**
+     * Normalizes the identifier (E-mail address or OpenID)
+     *
+     * @param string $identifier E-Mail address or OpenID
+     *
+     * @return string Normalized identifier
+     */
+    protected function normalizeIdentifier($identifier)
+    {
+        if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+            return strtolower($identifier);
+        } else {
+            return self::normalizeOpenId($identifier);
+        }
+    }
+
+    /**
      * Create a hash of the identifier.
      *
      * Create a hash of the email address or openid passed in. Algorithm
@@ -230,8 +248,7 @@ class Services_Libravatar
         }
 
         //no email, so the identifier has to be an OpenID
-        $openid = self::normalizeOpenId($identifier);
-        return hash('sha256', $openid);
+        return hash('sha256', $identifier);
     }
 
     /**
@@ -342,7 +359,7 @@ class Services_Libravatar
      * has no SRV records, fall back to Libravatar.org
      *
      * @param string  $domain A string of the domain we extracted from the
-     *                        provided identifer with domainGet()
+     *                        provided identifier with domainGet()
      * @param boolean $https  Whether or not to look for https records
      *
      * @return string The target URL.

@@ -26,6 +26,15 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetUrlCasing()
+    {
+        $this->loadSLMock();
+        $this->assertEquals(
+            'http://example.org/avatar/9e263681488308e5e5d5e548b2f9bc99',
+            $this->sl->getUrl('CWeiske@cWeiske.de')
+        );
+    }
+
     public function testGetUrlHttpsDefault()
     {
         $this->loadSLMock();
