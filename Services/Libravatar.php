@@ -170,7 +170,7 @@ class Services_Libravatar
         $identifierHash = $this->identifierHash($identifier, $algorithm);
 
         // Get the domain so we can determine the SRV stuff for federation
-        $domain = $this->domainGet($identifier, $https);
+        $domain = $this->domainGet($identifier);
 
         // If https has been specified in $options, make sure we make the
         // correct SRV lookup
@@ -309,53 +309,36 @@ class Services_Libravatar
      * Extract the domain from the Email or OpenID.
      *
      * @param string  $identifier A string of the email address or openid URL
-     * @param boolean $https      If this is https, true.
      *
      * @return string A string of the domain to use
      *
      * @since Method available since Release 0.1.0
      */
-    protected function domainGet($identifier, $https = false)
+    protected function domainGet($identifier)
     {
+        if ($identifier === null) {
+            return null;
+        }
 
         // What are we, email or openid? Split ourself up and get the
         // important bit out.
         if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
             $email = explode('@', $identifier);
             return $email[1];
-        } else {
-
-            // The protocol is important. If we're lacking it this will not be
-            // filtered. Add it per our preference in the options.
-            if ( ! strpos($identifier, 'http')) {
-                if ($https === true) {
-                    $protocol = 'https://';
-                } else {
-                    $protocol = 'http://';
-                }
-                $identifier = $protocol . $identifier;
-            }
-
-            $filter = filter_var(
-                $identifier,
-                FILTER_VALIDATE_URL,
-                FILTER_FLAG_PATH_REQUIRED
-            );
-
-            if ($filter) {
-                $url    = parse_url($identifier);
-                $domain = $url['host'];
-                if (isset($url['port']) && $url['scheme'] === 'http'
-                    && $url['port'] != 80
-                    || isset($url['port']) && $url['scheme'] === 'https'
-                    && $url['port'] != 443
-                ) {
-                    $domain .= ':' . $url['port'];
-                }
-
-                return $domain;
-            }
         }
+
+        //OpenID
+        $url    = parse_url($identifier);
+        $domain = $url['host'];
+        if (isset($url['port']) && $url['scheme'] === 'http'
+            && $url['port'] != 80
+            || isset($url['port']) && $url['scheme'] === 'https'
+            && $url['port'] != 443
+        ) {
+            $domain .= ':' . $url['port'];
+        }
+
+        return $domain;
     }
 
     /**

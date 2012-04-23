@@ -235,6 +235,42 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testDomainGetEmail()
+    {
+        $this->assertEquals(
+            'example.org',
+            $this->callProtected('domainGet', 'user@example.org')
+        );
+    }
+
+    public function testDomainGetNull()
+    {
+        $this->assertEquals(
+            null,
+            $this->callProtected('domainGet', null)
+        );
+    }
+
+    public function testDomainGetOpenId()
+    {
+        $this->assertEquals(
+            'example.org',
+            $this->callProtected('domainGet', 'http://example.org/')
+        );
+    }
+
+    public function testDomainGetOpenIdNonDefaultPort()
+    {
+        $this->assertEquals(
+            'example.org:123',
+            $this->callProtected('domainGet', 'http://example.org:123/')
+        );
+        $this->assertEquals(
+            'example.org:234',
+            $this->callProtected('domainGet', 'https://example.org:234/')
+        );
+    }
+
 
 
     public function testSetAlgorithmValid()
@@ -348,6 +384,23 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         $prop = $rc->getProperty($variable);
         $prop->setAccessible(true);
         return $prop->getValue($object);
+    }
+
+    /**
+     * Call a protected/private class method
+     *
+     * @param string $method Method name
+     * @param mixed  $arg1   Any number of method arguments
+     */
+    protected function callProtected($method)
+    {
+        $args = func_get_args();
+        array_shift($args);
+
+        $rc = new ReflectionClass($this->sl);
+        $method = $rc->getMethod($method);
+        $method->setAccessible(true);
+        return $method->invokeArgs($this->sl, $args);
     }
 
     protected function loadSLMock()
