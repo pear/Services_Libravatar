@@ -228,44 +228,46 @@ class Services_Libravatar
             // If email, we can select our algorithm. Default to md5 for
             // gravatar fallback.
             return hash($hash, $identifier);
-        } else {
-
-            // The protocol is important. If we're lacking it this will not be
-            // filtered. Add it per our preference in the options.
-            if (stripos($identifier, 'http') !== 0) {
-                if ($https === true) {
-                    $protocol = 'https://';
-                } else {
-                    $protocol = 'http://';
-                }
-                $identifier = $protocol . $identifier;
-            }
-
-            // Is this an email address or an OpenID account
-            $filter = filter_var(
-                $identifier,
-                FILTER_VALIDATE_URL,
-                FILTER_FLAG_PATH_REQUIRED
-            );
-
-            if ($filter) {
-                // If this is an OpenID, split the string and make sure the
-                // formatting is correct. See the Libravatar API for more info.
-                // http://wiki.libravatar.org/api/
-                $url     = parse_url($identifier);
-                $hashurl = strtolower($url['scheme']) . '://' .
-                           strtolower($url['host']);
-                if (isset($url['port']) && $url['scheme'] === 'http'
-                    && $url['port'] != 80
-                    || isset($url['port']) && $url['scheme'] === 'https'
-                    && $url['port'] != 443
-                ) {
-                    $hashurl .= ':' . $url['port'];
-                }
-                $hashurl .= $url['path'];
-                return hash('sha256', $hashurl);
-            }
         }
+
+        //no email, so the identifier has to be an OpenID
+        $openid = self::normalizeOpenId($identifier);
+        return hash('sha256', $openid);
+    }
+
+    /**
+     * Normalizes an identifier (URI or XRI)
+     *
+     * @internal Adapted from OpenID::normalizeIdentifier()
+     *
+     * @param mixed $identifier URI or XRI to be normalized
+     *
+     * @return string Normalized Identifier.
+     *                Empty string when the OpenID is invalid.
+     */
+    public static function normalizeOpenId($identifier)
+    {
+        // XRI
+        if (preg_match('@^xri://@i', $identifier)) {
+            return preg_replace('@^xri://@i', '', $identifier);
+        }
+
+        if (in_array($identifier[0], array('=', '@', '+', '$', '!'))) {
+            return $identifier;
+        }
+
+        // URL
+        if (!preg_match('@^http[s]?://@i', $identifier)) {
+            $identifier = 'http://' . $identifier;
+        }
+        if (strpos($identifier, '/', 8) === false) {
+            $identifier .= '/';
+        }
+        if (filter_var($identifier, FILTER_VALIDATE_URL)) {
+            return $identifier;
+        }
+
+        return '';
     }
 
     /**

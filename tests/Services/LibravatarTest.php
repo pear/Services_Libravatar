@@ -113,6 +113,63 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetUrlOpenId()
+    {
+        $this->loadSLMock();
+        $this->assertEquals(
+            'http://example.org/avatar/b5bbeb6202fa01ca1deb8809716a1492f013a8896abf6e11b651fdf1cde23380',
+            $this->sl->getUrl('cweiske.de')
+        );
+    }
+
+    public function testNormalizeOpenId()
+    {
+        $this->assertEquals(
+            'https://example.org/',
+            Services_Libravatar::normalizeOpenId('https://example.org/')
+        );
+    }
+
+    public function testNormalizeOpenIdXRI()
+    {
+        $this->assertEquals(
+            'foo',
+            Services_Libravatar::normalizeOpenId('xri://foo')
+        );
+    }
+
+    public function testNormalizeOpenIdXRIGlobalSymbol()
+    {
+        $this->assertEquals(
+            '=bar',
+            Services_Libravatar::normalizeOpenId('=bar')
+        );
+    }
+
+    public function testNormalizeOpenIdMissingProtocol()
+    {
+        $this->assertEquals(
+            'http://example.org/',
+            Services_Libravatar::normalizeOpenId('example.org/')
+        );
+    }
+
+    public function testNormalizeOpenIdMissingSlash()
+    {
+        $this->assertEquals(
+            'http://example.org/',
+            Services_Libravatar::normalizeOpenId('http://example.org')
+        );
+    }
+
+    public function testNormalizeOpenIdInvalid()
+    {
+        $this->assertEquals(
+            '',
+            Services_Libravatar::normalizeOpenId('http://e=g/')
+        );
+    }
+
 
 
     public function testSetAlgorithmValid()
