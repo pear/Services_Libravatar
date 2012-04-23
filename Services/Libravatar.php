@@ -292,7 +292,13 @@ class Services_Libravatar
             . (isset($parts['user']) ? $parts['user'] : '')
             . (isset($parts['pass']) ? ':' . $parts['pass'] : '')
             . (isset($parts['user']) || isset($parts['pass']) ? '@' : '')
-            . $parts['host'] . $parts['path']
+            . $parts['host']
+            . (
+                (isset($parts['port']) && $parts['scheme'] === 'http' && $parts['port'] != 80)
+                || (isset($parts['port']) && $parts['scheme'] === 'https' && $parts['port'] != 443)
+                ? ':' . $parts['port'] : ''
+            )
+            . $parts['path']
             . (isset($parts['query']) ? '?' . $parts['query'] : '');
             //leave out fragment as requested by the spec
     }

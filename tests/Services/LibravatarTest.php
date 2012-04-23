@@ -147,6 +147,30 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testNormalizeOpenIdPortDefault()
+    {
+        $this->assertEquals(
+            'http://example.org/',
+            Services_Libravatar::normalizeOpenId('http://example.org:80/')
+        );
+        $this->assertEquals(
+            'https://example.org/',
+            Services_Libravatar::normalizeOpenId('https://example.org:443/')
+        );
+    }
+
+    public function testNormalizeOpenIdPortNonDefault()
+    {
+        $this->assertEquals(
+            'http://example.org:123/',
+            Services_Libravatar::normalizeOpenId('http://example.org:123/')
+        );
+        $this->assertEquals(
+            'https://example.org:234/',
+            Services_Libravatar::normalizeOpenId('https://example.org:234/')
+        );
+    }
+
     public function testNormalizeOpenIdUsername()
     {
         $this->assertEquals(
