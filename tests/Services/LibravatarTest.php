@@ -107,7 +107,6 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
     public function testGetUrlNoIdentifier()
     {
         $this->loadSLMock();
-        //FIXME! I don't think this is the right way to do it
         $this->assertEquals(
             'http://example.org/avatar/d41d8cd98f00b204e9800998ecf8427e',
             $this->sl->getUrl(false)
