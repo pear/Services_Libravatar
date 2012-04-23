@@ -51,7 +51,7 @@ $packagexml->setOptions(
         'packagedirectory' => dirname(__FILE__),
         'baseinstalldir' => '/',
         'ignore' => array('build/', 'build.xml'),
-        'include' => array('Services/', 'LICENCE', 'tests/'),
+        'include' => array('Services/', 'LICENCE', 'docs/', 'tests/'),
         'simpleoutput' => true,
     )
 );
