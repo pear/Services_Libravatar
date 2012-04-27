@@ -57,7 +57,9 @@
  * $libravatar->setSize(40);
  * $libravatar->setAlgorithm('sha256');
  * $libravatar->setHttps(true);
- * $libravatar->setDefault('http://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png');
+ * $libravatar->setDefault(
+ *     'http://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png'
+ * );
  * $url = $libravatar->getUrl('melissa@meldraweb.com');
  * </code>
  *
@@ -270,10 +272,10 @@ class Services_Libravatar
      * used for email address ONLY can be varied. Either md5 or sha256
      * are supported by the Libravatar API. Will be ignored for openid.
      *
-     * @param string  $identifier A string of the email address or openid URL
-     * @param string  $hash       A string of the hash algorithm type to make
-     *                            Uses the php implementation of hash()
-     *                            MD5 preferred for Gravatar fallback
+     * @param string $identifier A string of the email address or openid URL
+     * @param string $hash       A string of the hash algorithm type to make
+     *                           Uses the php implementation of hash()
+     *                           MD5 preferred for Gravatar fallback
      *
      * @return string A string hash of the identifier.
      *
@@ -294,12 +296,12 @@ class Services_Libravatar
     /**
      * Normalizes an identifier (URI or XRI)
      *
-     * @internal Adapted from OpenID::normalizeIdentifier()
-     *
      * @param mixed $identifier URI or XRI to be normalized
      *
      * @return string Normalized Identifier.
      *                Empty string when the OpenID is invalid.
+     *
+     * @internal Adapted from OpenID::normalizeIdentifier()
      */
     public static function normalizeOpenId($identifier)
     {
@@ -348,7 +350,7 @@ class Services_Libravatar
      *
      * Extract the domain from the Email or OpenID.
      *
-     * @param string  $identifier A string of the email address or openid URL
+     * @param string $identifier A string of the email address or openid URL
      *
      * @return string A string of the domain to use
      *
