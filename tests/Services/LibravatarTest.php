@@ -113,6 +113,15 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Invalid option in array: foo
+     */
+    public function testGetUrlOptionInvalid()
+    {
+        $this->sl->getUrl('cweiske@cweiske.de', array('foo' => 123));
+    }
+
     public function testGetUrlNoIdentifier()
     {
         $this->loadSLMock();

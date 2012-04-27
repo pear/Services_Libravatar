@@ -146,7 +146,8 @@ class Services_Libravatar
      *
      * @return string A string of a full URL for an avatar image
      *
-     * @since Method available since Release 0.2.0
+     * @since  Method available since Release 0.2.0
+     * @throws InvalidArgumentException When an invalid option is passed
      */
     public function getUrl($identifier, $options = array())
     {
@@ -159,6 +160,7 @@ class Services_Libravatar
         }
 
         // Load all options
+        $this->checkOptionsArray($options);
         $https = $this->https;
         if (isset($options['https'])) {
             $https = (bool)$options['https'];
@@ -207,6 +209,31 @@ class Services_Libravatar
 
         // Return the URL string
         return $url;
+    }
+
+    /**
+     * Checks the options array and verify that only allowed options are in it.
+     *
+     * @param array $options Array of options for getUrl()
+     *
+     * @return void
+     * @throws Exception When an invalid option is used
+     */
+    protected function checkOptionsArray($options)
+    {
+        $allowedOptions = array(
+            'algorithm' => true,
+            'default'   => true,
+            'https'     => true,
+            'size'      => true,
+        );
+        foreach ($options as $key => $value) {
+            if (!isset($allowedOptions[$key])) {
+                throw new InvalidArgumentException(
+                    'Invalid option in array: ' . $key
+                );
+            }
+        }
     }
 
     /**
