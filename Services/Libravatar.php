@@ -160,7 +160,7 @@ class Services_Libravatar
         }
 
         // Load all options
-        $this->checkOptionsArray($options);
+        $options = $this->checkOptionsArray($options);
         $https = $this->https;
         if (isset($options['https'])) {
             $https = (bool)$options['https'];
@@ -221,6 +221,16 @@ class Services_Libravatar
      */
     protected function checkOptionsArray($options)
     {
+        //this short options are deprecated!
+        if (isset($options['s'])) {
+            $options['size'] = $options['s'];
+            unset($options['s']);
+        }
+        if (isset($options['d'])) {
+            $options['default'] = $options['d'];
+            unset($options['d']);
+        }
+
         $allowedOptions = array(
             'algorithm' => true,
             'default'   => true,
@@ -234,6 +244,8 @@ class Services_Libravatar
                 );
             }
         }
+
+        return $options;
     }
 
     /**

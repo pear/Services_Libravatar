@@ -94,6 +94,19 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Note that this short option is deprecated
+     */
+    public function testGetUrlSizeOptionShort()
+    {
+        $this->loadSLMock();
+        $this->sl->setSize(128);
+        $this->assertEquals(
+            'http://example.org/avatar/9e263681488308e5e5d5e548b2f9bc99?size=256',
+            $this->sl->getUrl('cweiske@cweiske.de', array('s' => 256))
+        );
+    }
+
     public function testGetUrlDefaultDefault()
     {
         $this->loadSLMock();
@@ -110,6 +123,18 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             'http://example.org/avatar/9e263681488308e5e5d5e548b2f9bc99?default=404',
             $this->sl->getUrl('cweiske@cweiske.de', array('default' => 404))
+        );
+    }
+
+    /**
+     * Note that this short option is deprecated
+     */
+    public function testGetUrlDefaultOptionShort()
+    {
+        $this->loadSLMock();
+        $this->assertEquals(
+            'http://example.org/avatar/9e263681488308e5e5d5e548b2f9bc99?default=404',
+            $this->sl->getUrl('cweiske@cweiske.de', array('d' => 404))
         );
     }
 
