@@ -1,7 +1,5 @@
 <?php
-
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-
 /**
  * PHP support for the Libravatar.org service.
  *
@@ -42,25 +40,26 @@
  * PHP support for the Libravatar.org service.
  *
  * Using this class is easy. After including or requiring
- * PEAR/libravatar.php simply do:
- *  <code>
- *   $libravatar = new Services_Libravatar();
- *   $url = $libravatar->url('melissa@meldraweb.com');
- *  </code>
+ * Services/Libravatar.php simply do:
+ * <code>
+ * $libravatar = new Services_Libravatar();
+ * $url = $libravatar->getUrl('melissa@meldraweb.com');
+ * </code>
  *
- *  This would populate $url with the string:
- *  http://cdn.libravatar.org/avatar/4db84629c121f2d443d33bdb9fd149bc
+ * This would populate $url with the string:
+ * <code>
+ * http://cdn.libravatar.org/avatar/4db84629c121f2d443d33bdb9fd149bc
+ * </code>
  *
  * A complicated lookup using all the options is:
- *  <code>
- *   $libravatar = new Services_Libravatar();
- *   $options = array();
- *   $options['s'] = '40';
- *   $options['algorithm'] = 'sha256';
- *   $options['https'] = true;
- *   $options['d'] = 'http://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png';
- *   $url = $libravatar->url('melissa@meldraweb.com', $options);
- *  </code>
+ * <code>
+ * $libravatar = new Services_Libravatar();
+ * $libravatar->setSize(40);
+ * $libravatar->setAlgorithm('sha256');
+ * $libravatar->setHttps(true);
+ * $libravatar->setDefault('http://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png');
+ * $url = $libravatar->getUrl('melissa@meldraweb.com');
+ * </code>
  *
  * @category  Services
  * @package   Services_Libravatar
