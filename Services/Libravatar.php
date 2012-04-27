@@ -158,6 +158,7 @@ class Services_Libravatar
             $identifier = $this->normalizeIdentifier($identifier);
         }
 
+        // Load all options
         $https = $this->https;
         if (isset($options['https'])) {
             $https = (bool)$options['https'];
@@ -167,6 +168,17 @@ class Services_Libravatar
         if (isset($options['algorithm'])) {
             $algorithm = $this->processAlgorithm($options['algorithm']);
         }
+
+        $default = $this->default;
+        if (isset($options['default'])) {
+            $default = $this->processDefault($options['default']);
+        }
+        $size = $this->size;
+        if (isset($options['size'])) {
+            $size = $this->processSize($options['size']);
+        }
+
+
         $identifierHash = $this->identifierHash($identifier, $algorithm);
 
         // Get the domain so we can determine the SRV stuff for federation
@@ -176,16 +188,6 @@ class Services_Libravatar
         // correct SRV lookup
         $service  = $this->srvGet($domain, $https);
         $protocol = $https ? 'https' : 'http';
-
-        // Additional URL options
-        $default = $this->default;
-        if (isset($options['default'])) {
-            $default = $this->processDefault($options['default']);
-        }
-        $size = $this->size;
-        if (isset($options['size'])) {
-            $size = $this->processSize($options['size']);
-        }
 
         $params = array();
         if ($size !== null) {
