@@ -336,8 +336,10 @@ class Services_Libravatar
             . (isset($parts['user']) || isset($parts['pass']) ? '@' : '')
             . $parts['host']
             . (
-                (isset($parts['port']) && $parts['scheme'] === 'http' && $parts['port'] != 80)
-                || (isset($parts['port']) && $parts['scheme'] === 'https' && $parts['port'] != 443)
+                (isset($parts['port'])
+                && $parts['scheme'] === 'http' && $parts['port'] != 80)
+                || (isset($parts['port'])
+                && $parts['scheme'] === 'https' && $parts['port'] != 443)
                 ? ':' . $parts['port'] : ''
             )
             . $parts['path']
