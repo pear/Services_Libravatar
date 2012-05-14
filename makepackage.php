@@ -59,15 +59,13 @@ $packagexml->setPackageType('php');
 $packagexml->addRelease();
 $packagexml->setPackage('Services_Libravatar');
 $packagexml->setChannel('pear.php.net');
-$packagexml->setReleaseVersion('0.2.0');
+$packagexml->setReleaseVersion('0.2.1');
 $packagexml->setAPIVersion('0.2.0');
 $packagexml->setReleaseStability('alpha');
 $packagexml->setAPIStability('alpha');
 $packagexml->setSummary('API interfacing class for libravatar.org');
 $packagexml->setDescription('Allows php applications to implement libravatar.org');
-$packagexml->setNotes("-option validation and standardisation
--url() deprecation
--more tests");
+$packagexml->setNotes("Remove whitespace line");
 $packagexml->setPhpDep('5.3.0');
 $packagexml->setPearinstallerDep('1.4.0a12');
 $packagexml->addMaintainer(
