@@ -372,7 +372,12 @@ class Services_Libravatar
         }
 
         //OpenID
-        $url    = parse_url($identifier);
+        $url = parse_url($identifier);
+        if (!isset($url['host'])) {
+            //invalid URL
+            return null;
+        }
+
         $domain = $url['host'];
         if (isset($url['port']) && $url['scheme'] === 'http'
             && $url['port'] != 80
@@ -401,7 +406,6 @@ class Services_Libravatar
      */
     protected function srvGet($domain, $https = false)
     {
-
         // Are we going secure? Set up a fallback too.
         if (isset($https) && $https === true) {
             $subdomain = '_avatars-sec._tcp.';
@@ -409,6 +413,11 @@ class Services_Libravatar
         } else {
             $subdomain = '_avatars._tcp.';
             $fallback  = 'cdn.';
+        }
+
+        if ($domain === null) {
+            // No domain means invalid email address/openid
+            return $fallback . 'libravatar.org';
         }
 
         // Lets try get us some records based on the choice of subdomain

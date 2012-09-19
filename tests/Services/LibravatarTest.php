@@ -165,6 +165,14 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetUrlInvalid()
+    {
+        $this->assertEquals(
+            'http://cdn.libravatar.org/avatar/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+            $this->sl->getUrl('adam@adam-laptop.(none)')
+        );
+    }
+
     public function testNormalizeOpenId()
     {
         $this->assertEquals(
