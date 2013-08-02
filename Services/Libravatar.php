@@ -410,9 +410,11 @@ class Services_Libravatar
         if (isset($https) && $https === true) {
             $subdomain = '_avatars-sec._tcp.';
             $fallback  = 'seccdn.';
+            $port      = 443;
         } else {
             $subdomain = '_avatars._tcp.';
             $fallback  = 'cdn.';
+            $port      = 80;
         }
 
         if ($domain === null) {
@@ -468,7 +470,11 @@ class Services_Libravatar
         // order which is greater than or equal to the random number selected"
         foreach ($pri as $k => $v) {
             if ($k >= $random) {
-                return $v['target'];
+                $target = $v['target'];
+                if ($v['port'] !== $port) {
+                    $target.= ':'. $v['port'];
+                }
+                return $target;
             }
         }
     }
