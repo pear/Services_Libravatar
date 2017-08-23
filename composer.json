@@ -1,0 +1,34 @@
+{
+    "name": "pear/services_libravatar",
+    "homepage": "http://pear.php.net/package/Services_Libravatar",
+    "description": "API interfacing class for libravatar.org",
+    "license": "MIT",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Services_Libravatar",
+        "source": "https://github.com/pear/Services_Libravatar"
+    },
+    "authors": [
+        {
+            "email": "melissa@meldraweb.com",
+            "name": "Melissa Draper",
+            "role": "Lead"
+        },
+        {
+            "email": "cweiske@php.net",
+            "name": "Christian Weiske",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Services": "./Services/"
+        }
+    },
+    "include-path": [
+        "./"
+    ],
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^5.7.0"
+    }
+}
