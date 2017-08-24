@@ -38,4 +38,4 @@ Unit test status
   .. image:: https://travis-ci.org/pear/Services_Libravatar.svg?branch=master
      :target: https://travis-ci.org/pear/Services_Libravatar
 Packagist
-  https://packagist.org/packages/pear/services_libravatar_git
+  https://packagist.org/packages/pear/services_libravatar
