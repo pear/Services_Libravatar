@@ -440,7 +440,6 @@ class Services_LibravatarTest extends \PHPUnit\Framework\TestCase
             ->getMockBuilder('Services_Libravatar')
             ->onlyMethods(array('srvGet'))
             ->getMock();
-        //$this->sl = $this->getMock('Services_Libravatar', array('srvGet'));
         $this->sl->expects($this->once())
             ->method('srvGet')
             ->willReturn('example.org');

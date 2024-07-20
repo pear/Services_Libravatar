@@ -422,12 +422,16 @@ class Services_Libravatar
             return $fallback . 'libravatar.org';
         }
 
-        // Lets try get us some records based on the choice of subdomain
+        // Let's try get us some records based on the choice of subdomain
         // and the domain we had passed in.
+        // Bug workaround: https://bugs.php.net/bug.php?id=73149
+        function NoWarnings($errno, $err_str, $err_file, $err_line){ return true; }
+        $old_handler = set_error_handler('NoWarnings', E_WARNING);
         $srv = dns_get_record($subdomain . $domain, DNS_SRV);
+        set_error_handler($old_handler, E_WARNING);
 
         // Did we get anything? No?
-        if (count($srv) == 0) {
+        if ($srv === false || count($srv) == 0) {
             // Then let's try Libravatar.org.
             return $fallback . 'libravatar.org';
         }
