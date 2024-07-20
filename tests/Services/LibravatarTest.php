@@ -1,10 +1,9 @@
 <?php
 require_once 'Services/Libravatar.php';
 
-class Services_LibravatarTest extends PHPUnit_Framework_TestCase
+class Services_LibravatarTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
-    {
+    public function setUp(): void {
         $this->sl = new Services_Libravatar();
     }
 
@@ -138,12 +137,10 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid option in array: foo
-     */
     public function testGetUrlOptionInvalid()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid option in array: foo');
         $this->sl->getUrl('cweiske@cweiske.de', array('foo' => 123));
     }
 
@@ -324,12 +321,10 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('sha256', $this->getProtected('algorithm', $this->sl));
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Only md5 and sha256 hashing supported
-     */
     public function testSetAlgorithmInvalid()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Only md5 and sha256 hashing supported');
         $this->sl->setAlgorithm('foo');
     }
 
@@ -356,21 +351,17 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid default avatar URL
-     */
     public function testSetDefaultInvalidShortcut()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid default avatar URL');
         $this->sl->setDefault('foo');
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid default avatar URL
-     */
     public function testSetDefaultInvalidUrl()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid default avatar URL');
         //missing protocol
         $this->sl->setDefault('example.org/default.png');
     }
@@ -393,12 +384,10 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
         $this->assertNull($this->getProtected('size', $this->sl));
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Size has to be larger than 0
-     */
     public function testSetSizeInvalid()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Size has to be larger than 0');
         $this->sl->setSize(-21);
     }
 
@@ -447,10 +436,14 @@ class Services_LibravatarTest extends PHPUnit_Framework_TestCase
 
     protected function loadSLMock()
     {
-        $this->sl = $this->getMock('Services_Libravatar', array('srvGet'));
+        $this->sl = $this
+            ->getMockBuilder('Services_Libravatar')
+            ->onlyMethods(array('srvGet'))
+            ->getMock();
+        //$this->sl = $this->getMock('Services_Libravatar', array('srvGet'));
         $this->sl->expects($this->once())
             ->method('srvGet')
-            ->will($this->returnValue('example.org'));
+            ->willReturn('example.org');
     }
 }
 
