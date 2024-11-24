@@ -427,7 +427,7 @@ class Services_Libravatar
         $srv = dns_get_record($subdomain . $domain, DNS_SRV);
 
         // Did we get anything? No?
-        if (count($srv) == 0) {
+        if (empty($srv)) {
             // Then let's try Libravatar.org.
             return $fallback . 'libravatar.org';
         }
